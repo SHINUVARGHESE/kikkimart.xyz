@@ -1,0 +1,33 @@
+<head>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Edit Category</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<!-- register -->
+	<div class="register">
+		<div class="container">
+			<h2>Edit Category</h2>
+			<div class="login-form-grids">
+				<form id="form" action="/admin/editCategory?name={{name}}" method="POST">
+					<input type="text" name="cname" value="{{name}}" >
+					<input type="submit" value="APPLY">
+				</form>
+			</div>
+		</div>
+	</div>
+<!-- //register -->
+ <script src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> 
+   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script> 
+    <script src='/js/validation.js'></script>
+</body>

@@ -1,0 +1,42 @@
+<head>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+	<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="admin">Admin</a></li>
+				<li class="active">Manage</li>
+			</ol>
+		</div>
+	</div>
+	<!-- //breadcrumbs -->
+	<div>
+		<h2 class="table_top md-6">Manage Users</h2>
+		<a href="/admin/manageUsers"><button class="ad">Refresh</button></a>
+		<table id="customers">
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Mail</th>
+					<th>PhoneNumber</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each results }}
+				<tr>
+					<td>{{this.fname}}</td>
+					<td>{{this.lname}}</td>
+					<td>{{this.mail}}</td>
+					<td>{{this.mobile}}</td>
+					<td><a href="/admin/blockUser?status={{this.status}}&id={{this._id}}"><button style="">{{this.status}}</button></a>&nbsp;<a href="/admin/removeUser?id={{this._id}}"><button>Remove</button></a></td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</body>

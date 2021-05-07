@@ -1,0 +1,40 @@
+<head>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<!-- start-smoth-scrolling -->
+</head>
+	
+<body>
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="admin">Admin</a></li>
+				<li class="active">Manage</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<div>
+  <h2 class="table_top md-6">Manage Category</h2>            
+  <a href="/admin/addCategory"><button class="ad">Add Category</button></a>&nbsp;<a href="/admin/manageCategory"><button>Refresh</button></a>
+<table id="customers">
+<thead>	
+  <tr>
+    <th>Category Id</th>
+    <th>Category Name</th>
+    <th>Category Options</th>
+  </tr>
+  </thead>
+  <tbody>
+	{{#each results}}  
+  <tr>
+  	<td>1</td>
+    <td>{{this.cname}}</td>
+    <td><a href="/admin/editCategory?name={{this.cname}}"><button>Edit</button></a>&nbsp;<a href="/admin/removeCategory?name={{this.cname}}"><button>Remove</button></a></td>
+  </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>	
+<!-- //main slider-banner --> 
+</body>

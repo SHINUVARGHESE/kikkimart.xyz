@@ -1,0 +1,57 @@
+<head>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Edit Products</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<!-- register -->
+	<div class="register">
+		<div class="container">
+			<h2>Edit Product</h2>
+			<div class="login-form-grids">
+				{{#each results}}
+				<form id="form" action="/admin/editProducts?id={{this._id}}" enctype="multipart/form-data" method="POST">
+					<label>Product Name</label>
+					<input type="text" name="pname" placeholder="Product name" value="{{this.pname}}"><br>
+					<label>Product Price</label>
+					<input type="text" name="Price" placeholder="Price" value="{{this.price}}"><br>
+					<label>Category</label><br>
+					<select class="category" name="category">
+						<option>{{this.category}}</option>
+						{{/each}}
+						{{#each category}}
+						<option>{{this.cname}}</option>
+						{{/each}}
+					</select><br><br>
+					{{#each results}}
+					<label>Product Discription</label>
+					<textarea class="discription" name="discription">{{this.discription}}</textarea><br>
+					<img style="width: 20%;" src="/product_images/{{this._id}}.jpg" id="imageView">
+                    <input class="files" name="images" onchange="viewImage(event)" type="file" >
+					{{/each}}<br>
+					<label style="padding-left: 5%;">Image</label><br>
+					<input type="submit" value="APPLY">
+				</form>
+			</div>
+		</div>
+	</div>
+<!-- //register -->
+<script>
+	function viewImage(event){
+			document.getElementById('imageView').src=URL.createObjectURL(event.target.files[0])
+	}
+</script>
+ <script src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> 
+   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script> 
+    <script src='/js/validation.js'></script>
+</body>
