@@ -1,4 +1,5 @@
 var express = require('express');
+const session = require('express-session');
 var router = express.Router();
 var adminHelpers = require('../helpers/adminHelpers')
 var userHelpers = require('../helpers/userHelpers')
@@ -6,45 +7,63 @@ var userHelpers = require('../helpers/userHelpers')
 
 //------*Admin*-------//
 router.get('/', function(req, res, next) {
+  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+  if(req.session.adminloggedIn){
+    res.render('admin')
+  }else{
   res.render('adminLogin', { title: 'Admin LoginPage' });
+  }
 });
 
 router.get('/adminLogout', function(req, res, next) {
-  res.render('/');
+  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+  if(req.session.adminloggedIn){
+    req.session.adminloggedIn= false
+    res.redirect('/admin')
+  }else{
+    res.render('adminLogin')
+  } 
 });
 
 router.post('/adminPage', function(req, res) {
-
-  adminHelpers.doLogin(req.body,(result)=>{
-    if(result){
-      res.render('admin')
-    }else{
-      res.redirect('/admin')
-    }
-})
+  if(req.session.adminloggedIn){
+    res.render('admin')
+  }else{
+    adminHelpers.doLogin(req.body,(result)=>{
+      if(result){
+          req.session.adminloggedIn=true
+        res.render('admin') 
+      }else{
+        var err = "Input not matching"
+        res.render('adminLogin',{err})
+      }
+    })
+  }
 });
-router.get('/adminPage', function(req, res) {
 
-      res.render('admin')
-   
 
-});
+
 
 
 //-------*User*---------//
 
 router.get('/manageUsers', function(req, res) {
-  userHelpers.findUser(req.body,(results)=>{
-    if(results){
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  if(req.session.adminloggedIn){
+    userHelpers.findUser(req.body,(results)=>{
+      if(results){
         res.render('manageUsers',{results:results})
-    }
-  })
+      }
+    })
+  }else{
+    res.render('/admin')
+  }
 });
 
 router.get('/removeUser/', function(req, res) {
   userHelpers.removeUser(req.query,(result)=>{
       res.redirect('/admin/manageUsers')
-  })
+  }) 
 
 });
 
@@ -68,7 +87,6 @@ router.get('/blockUser/', function(req, res) {
 router.get('/manageCategory', function(req, res) {
 
   userHelpers.findCategory(req.body,(results)=>{
-
     if(results){
       res.render('manageCategory',{results:results})
     }
@@ -183,6 +201,19 @@ router.get('/removeProducts', function(req, res) {
   userHelpers.removeProducts(req.query,(results)=>{
     if(results){
       res.redirect('/admin/manageProducts')
+    }
+  })
+
+});
+
+
+//-------*Order*---------//
+
+router.get('/manageOrders', function(req, res) {
+  userHelpers.findAllOrders(req.body,(orders)=>{
+    if(orders){
+      
+       res.render('manageOrders',{orders})
     }
   })
 

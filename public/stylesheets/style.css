@@ -11,6 +11,9 @@ ul li,ol li{
     color:#fe9126;
     padding-bottom: 15px;
 }
+.orderButton{
+    background-color: #a1a1a1;
+   }
 p{
 	margin:0;
 }
@@ -354,6 +357,13 @@ ul.multi-column-dropdown h6 {
       width:100%;
       padding-bottom: 18%;
   }
+table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}
   .category{
     width: 100%;
     margin-top: 5px;
@@ -362,8 +372,10 @@ ul.multi-column-dropdown h6 {
     border: 0;
   }
   .files{
-    float: right;
-    margin-top: 35px;
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 25%;
   }
   .add_files{
       float: left;
@@ -1251,7 +1263,7 @@ td.invert-image a img {
 /*-- quantity-end --*/
 .checkout-left-basket h4{
 	padding: 1em;
-    background:#3399cc;
+    background:#212121;
     font-size: 1.1em;
     color: #fff;
     text-transform: uppercase;
@@ -1268,12 +1280,12 @@ td.invert-image a img {
 	color:#999;
 }
 .checkout-left-basket {
-    float: left;
+    float: right;
     width: 25%;
 }
 .checkout-right-basket{
 	float: right;
-    margin: 8em 0 0 0em;
+    margin: 1em 4em 0 1em;
 }
 .checkout-left-basket ul li span {
     float: right;
@@ -1288,10 +1300,10 @@ td.invert-image a img {
     margin: 2em 0 0;
 }
 .checkout-right-basket a{
-	padding:10px 30px;
+	padding:17px 50px;
 	color:#fff;
 	font-size:1em;
-	background:#212121;
+	background:#3bd428;
 	text-decoration:none;
 }
 .checkout-right-basket a:hover{

@@ -33,9 +33,10 @@
 			<h2>Admin Login Form</h2>
 		
 			<div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+				<label class="err">{{err}}</label>
 				<form id="form" action="/admin/adminPage" method="POST">
 					<input type="text" name="mail" placeholder="Email Address"><br>
-					<input type="text" name="pass" placeholder="Password">
+					<input type="password" name="pass" placeholder="Password">
 					<div class="forgot">
 					</div>
 					<input type="submit" value="Login">

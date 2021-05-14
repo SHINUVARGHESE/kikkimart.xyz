@@ -23,7 +23,7 @@
 					<label>Product Name</label>
 					<input type="text" name="pname" placeholder="Product name" value="{{this.pname}}"><br>
 					<label>Product Price</label>
-					<input type="text" name="Price" placeholder="Price" value="{{this.price}}"><br>
+					<input type="text" name="price" placeholder="Price" value="{{this.price}}"><br>
 					<label>Category</label><br>
 					<select class="category" name="category">
 						<option>{{this.category}}</option>
@@ -35,17 +35,18 @@
 					{{#each results}}
 					<label>Product Discription</label>
 					<textarea class="discription" name="discription">{{this.discription}}</textarea><br>
-					<img style="width: 20%;" src="/product_images/{{this._id}}.jpg" id="imageView">
+
+					<label>Product Image</label><br>
+					<img style="width: 20%; margin-left: 5%;" src="/product_images/{{this._id}}.jpg" id="imageView">
                     <input class="files" name="images" onchange="viewImage(event)" type="file" >
 					{{/each}}<br>
-					<label style="padding-left: 5%;">Image</label><br>
 					<input type="submit" value="APPLY">
 				</form>
 			</div>
 		</div>
 	</div>
 <!-- //register -->
-<script>
+<script> 
 	function viewImage(event){
 			document.getElementById('imageView').src=URL.createObjectURL(event.target.files[0])
 	}

@@ -1,5 +1,49 @@
 <head>
 <link rel='stylesheet' href='/stylesheets/style.css' />
+<style>
+	.containe{
+  width:400px;
+  margin:0 auto;
+}
+.imageBox
+{
+    position: relative;
+    height: 400px;
+    width: 400px;
+    border:1px solid #aaa;
+    background: #fff;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    cursor:move;
+}
+
+.imageBox .thumbBox
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+    box-sizing: border-box;
+    border: 1px solid rgb(102, 102, 102);
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+    background: none repeat scroll 0% 0% transparent;
+}
+
+.imageBox .spinner
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    line-height: 400px;
+    background: rgba(0,0,0,0.7);
+}
+</style>
 </head>
 <body>
 
@@ -31,10 +75,59 @@
 					<label>Product Price</label><br>
 					<input required type="text" name="price"><br>
 					<label>Discription</label><br>
-					<textarea class="discription" name="discription"></textarea><br><br>
+					<textarea class="discription" name="discription"></textarea><br>
 					<input type="hidden" name="offerPrice" value="Nill">
 					<label>Product Image</label><br>
-					<input class="add_files" name="image" type="file" ><br>
+					
+<div class="containe">
+    <div class="imageBox">
+        <div class="thumbBox"></div>
+        <div class="spinner" style="display: none">Loading...</div>
+    </div>
+    <div class="action">
+        <input class="files" id="file" name="image" type="file" >
+        <input type="button" id="btnCrop" value="Crop" style="float: right">
+        <input type="button" id="btnZoomIn" value="+" style="float: right">
+        <input type="button" id="btnZoomOut" value="-" style="float: right">
+    </div>
+    <div class="cropped">
+	</div>
+
+</div>
+<script type="text/javascript">
+    window.onload = function() {
+        var options =
+        {
+            imageBox: '.imageBox',
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.jpg'
+        }
+        var cropper;
+        document.querySelector('#file').addEventListener('change', function(){
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                cropper = new cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+        })
+        document.querySelector('#btnCrop').addEventListener('click', function(){
+            var img = cropper.getDataURL()
+            document.querySelector('.cropped').innerHTML += '<img src="'+img+'">';
+        })
+        document.querySelector('#btnZoomIn').addEventListener('click', function(){
+            cropper.zoomIn();
+        })
+        document.querySelector('#btnZoomOut').addEventListener('click', function(){
+            cropper.zoomOut();
+        })
+    };
+</script>
+
+</body>
+
 					<input type="submit" value="Add">
 				</form>
 			</div>
@@ -45,4 +138,5 @@
     integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> 
    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script> 
     <script src='/js/validation.js'></script>
+	<script src='/js/cropper.js'></script>
 </body>

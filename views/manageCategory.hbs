@@ -20,15 +20,15 @@
 <table id="customers">
 <thead>	
   <tr>
-    <th>Category Id</th>
+    <th>SI</th>
     <th>Category Name</th>
     <th>Category Options</th>
   </tr>
   </thead>
   <tbody>
-	{{#each results}}  
+	{{#each results}}
   <tr>
-  	<td>1</td>
+  	<td class="counterCell"></td>
     <td>{{this.cname}}</td>
     <td><a href="/admin/editCategory?name={{this.cname}}"><button>Edit</button></a>&nbsp;<a href="/admin/removeCategory?name={{this.cname}}"><button>Remove</button></a></td>
   </tr>

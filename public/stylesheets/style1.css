@@ -793,10 +793,17 @@ ul.dropdown-menu.drp-mnu li {
 }
 .user-name span {
     font-size: .75em;
-    font-style: italic;
-    color: #424f63;
+    font-style: Bold;
+    color: #fff;
     font-weight: normal;
     margin-top: .3em;
+    background-color:black;
+    padding:12px;
+    border-radius:8px;
+}
+.err{
+    color:#fe9126;
+    padding-bottom: 15px;
 }
 .profile_details ul {
     padding: 0px;

@@ -4,4 +4,8 @@ module.exports={
     category_collections:'category',
     subCategory_collections:'subCategory',
     product_collections:'product',
+    cart_collections:'cart',
+    order_collections:'order',
+
+
 }

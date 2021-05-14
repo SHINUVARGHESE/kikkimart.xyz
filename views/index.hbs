@@ -702,7 +702,7 @@
 									<figure>
 										<div class="snipcart-item block">
 											<div class="snipcart-thumb">
-												<a href="/users/single?id={{this._id}}&name={{this.pname}}&price={{this.price}}&discription={{this.discription}}"><img title=" " alt=" " src="product_images/{{this._id}}.jpg"></a>		
+												<a onclick="message()" href="/logIn"><img title=" " alt=" " src="product_images/{{this._id}}.jpg"></a>		
 												<p>{{this.pname}}</p>
 												<div class="stars">
 													<i class="fa fa-star blue-star" aria-hidden="true"></i>
@@ -714,7 +714,7 @@
 													<h4>{{this.price}}</h4>
 											</div>
 											<div class="snipcart-details top_brand_home_details">
-												<form action="#" method="post">
+												<form action="/logIn">
 													<fieldset>
 														<input type="hidden" name="cmd" value="_cart">
 														<input type="hidden" name="add" value="1">
@@ -725,7 +725,8 @@
 														<input type="hidden" name="currency_code" value="USD">
 														<input type="hidden" name="return" value=" ">
 														<input type="hidden" name="cancel_return" value=" ">
-														<input type="submit" name="submit" value="Add to cart" class="button">
+														<input onclick="message()" type="submit" name="submit" value="Add to cart"
+															class="button">
 													</fieldset>
 												</form>
 											</div>
@@ -742,7 +743,12 @@
 		</div>
 	</div>
 	</div>
-<!-- //new -->	
+<!-- //new -->
+<script>
+function message(){
+	alert("Please Login First")
+}
+</script>	
 <!--banner-bottom-->
 				<div class="ban-bottom-w3l">
 					<div class="container">
@@ -860,17 +866,6 @@
 			});
 	</script>
 <!-- //here ends scrolling icon -->
-<script src="js/minicart.min.js"></script>
-<script>
-	// Mini Cart
-	paypal.minicart.render({
-		action: '#'
-	});
-
-	if (~window.location.search.indexOf('reset=true')) {
-		paypal.minicart.reset();
-	}
-</script>
 <!-- main slider-banner -->
 <script src="js/skdslider.min.js"></script>
 <link href="css/skdslider.css" rel="stylesheet">
