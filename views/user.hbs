@@ -90,7 +90,7 @@
 						</li>
 
 						<li><a href="">Offers</a></li>
-						<li><a href="">Contact</a></li>
+						<li><a href="/contact">Contact</a></li>
 						{{#if users}}
 						<li><a href="users/profile?id={{users.data._id}}"> Profile </a></li>
 						<li><a href="/viewOrders"> Orders </a></li>
@@ -248,7 +248,7 @@
 					<h3>Information</h3>
 					<ul class="info">
 						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="about">About Us</a></li>
-						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="contact">Contact Us</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/contact">Contact Us</a></li>
 						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="offers">Offers</a></li>
 					</ul>
 				</div>
@@ -324,6 +324,9 @@
 				let count=$('#cartCount').html()
 				count=parseInt(count)+1
 				$('#cartCount').html(count)
+			}
+			else{
+				location.href='/'
 			}
         }
     })

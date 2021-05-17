@@ -1,190 +1,630 @@
-<head>
-<style>
- html, body {
-  height: 100%;
+
+<head><!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Super Market Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="/stylesheets/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/stylesheets/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="/stylesheets/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="/javascripts/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="/javascripts/move-top.js"></script>
+<script type="text/javascript" src="/javascripts/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+  <style>
+    body {
+    color: #797979;
+    background: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0px !important;
+    margin: 0px !important;
+    font-size: 13px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+}
+.panel-body{
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+.profile-nav, .profile-info{
+    margin-top:30px;   
 }
 
-body {
-  background: #7979B2;
-  background: linear-gradient(to right, #932050, #7979B2);
-  background: -webkit-linear-gradient(to right, #932050, #7979B2);
-  font-family: helvetica neue;
+.profile-nav .user-heading {
+    background: #fbc02d;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    padding: 30px;
+    text-align: center;
 }
 
-.main {
-  background: #fff;
-  width: 350px;
-  height: 400px;
-  border-radius: 15px;
-  box-shadow: 1px 1px 20px rgba(0,0,0,.5);
+.profile-nav .user-heading.round a  {
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border: 10px solid rgba(255,255,255,0.3);
+    display: inline-block;
 }
 
-.info {
-  text-align: center;
-  background: #fff;
-  background: linear-gradient(to left bottom, #932050 50%, #e8e8e8 50%);
-  background: -webkit-linear-gradient(to left bottom, #932050 50%, #e8e8e8 50%);
-  border-radius: 15px 15px 0 0;
+.profile-nav .user-heading a img {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
 }
 
-.prof {
-  width: 150px;
-  height: 150px;
-  margin-top: 10px;
+.profile-nav .user-heading h1 {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 5px;
 }
 
-h1 {
-  margin-top: 5px;
-  margin-bottom: -5px;
-  font-weight: 100;
+.profile-nav .user-heading p {
+    font-size: 12px;
 }
 
-.body {
-  margin-top: -10px;
-  text-align: center;
+.profile-nav ul {
+    margin-top: 1px;
 }
 
-a {
-  color: #932050;
-  transition: all .2s ease-in-out;
-  margin-right: 20px;
-  margin-left: 20px;
+.profile-nav ul > li {
+    border-bottom: 1px solid #ebeae6;
+    margin-top: 0;
+    line-height: 30px;
 }
 
-a:hover {
-  color: #7979B2;
+.profile-nav ul > li:last-child {
+    border-bottom: none;
 }
 
-hr {
-  margin-bottom: 40px;
+.profile-nav ul > li > a {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    color: #000000;
+    background-color: #cfdaf3;
 }
 
-ul {
-  display: inline-block;
-  text-align: left;
+.profile-nav ul > li > a:hover, .profile-nav ul > li > a:focus, .profile-nav ul li.active  a {
+    background:  #cfdaf3; !important;
+    color: #000000 !important;
 }
 
-.fa-li {
-  color: pink;
-  font-size: 10px;
-  margin-top: 5px;
+.profile-nav ul > li:last-child > a:last-child {
+    border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
 }
 
-li:hover {
-  .fa-li {
-  color: #7979B2;
-  }
-}html, body {
-  height: 100%;
+.profile-nav ul > li > a > i{
+    font-size: 16px;
+    padding-right: 10px;
+    color: #bcb3aa;
 }
 
-body {
-  background: #7979B2;
-  background: linear-gradient(to right, #932050, #7979B2);
-  background: -webkit-linear-gradient(to right, #932050, #7979B2);
-  font-family: helvetica neue;
+.r-activity {
+    margin: 6px 0 0;
+    font-size: 12px;
 }
 
-.main {
-  background: #fff;
-  width: 350px;
-  height: 400px;
-  border-radius: 15px;
-  box-shadow: 1px 1px 20px rgba(0,0,0,.5);
-  margin-top: 7%;
-  margin-left: 35%;
+
+.p-text-area, .p-text-area:focus {
+    border: none;
+    font-weight: 300;
+    box-shadow: none;
+    color: #c3c3c3;
+    font-size: 16px;
 }
 
-.info {
-  text-align: center;
-  background: #fff;
-  background: linear-gradient(to left bottom, #932050 50%, #e8e8e8 50%);
-  background: -webkit-linear-gradient(to left bottom, #932050 50%, #e8e8e8 50%);
-  border-radius: 15px 15px 0 0;
+.profile-info .panel-footer {
+    background-color:#f8f7f5 ;
+    border-top: 1px solid #e7ebee;
 }
 
-.prof {
-  width: 150px;
-  height: 150px;
-  margin-top: 10px;
+.profile-info .panel-footer ul li a {
+    color: #7a7a7a;
 }
 
-h1 {
-  margin-top: 5px;
-  margin-bottom: -5px;
-  font-weight: 100;
+.bio-graph-heading {
+    background: #fbc02d;
+    color: #fff;
+    text-align: center;
+    font-style: italic;
+    padding: 40px 10px;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    font-weight: 300;
 }
 
-.body {
-  margin-top: -10px;
-  text-align: center;
-}
-button{
-  padding-left: 5px;
-  width: 55px;
-  margin: 1px;
-}
-.footer {
-  width: 350px;
-  text-align: center;
-  font-size: 40px;
+.bio-graph-info {
+    color: #0a0604;
+    background-color: #cfdaf3;
 }
 
-a {
-  color: #932050;
-  transition: all .2s ease-in-out;
-  margin-right: 20px;
-  margin-left: 20px;
+.bio-graph-info h1 {
+    font-size: 22px;
+    font-weight: 300;
+    margin: 0 0 20px;
 }
 
-a:hover {
-  color: #7979B2;
+.bio-row {
+    width: 50%;
+    float: left;
+    margin-bottom: 10px;
+    padding:0 15px;
 }
 
-hr {
-  margin-bottom: 40px;
+.bio-row p span {
+    width: 100px;
+    display: inline-block;
 }
 
-ul {
-  display: inline-block;
-  text-align: left;
+.bio-chart, .bio-desk {
+    float: left;
 }
 
-.fa-li {
-  color: pink;
-  font-size: 10px;
-  margin-top: 5px;
+.bio-chart {
+    width: 40%;
 }
 
-li:hover {
-  .fa-li {
-  color: #7979B2;
-  }
+.bio-desk {
+    width: 60%;
 }
-</style>
+
+.bio-desk h4 {
+    font-size: 15px;
+    font-weight:400;
+}
+
+.bio-desk h4.terques {
+    color: #4CC5CD;
+}
+
+.bio-desk h4.red {
+    color: #e26b7f;
+}
+
+.bio-desk h4.green {
+    color: #97be4b;
+}
+
+.bio-desk h4.purple {
+    color: #caa3da;
+}
+
+.file-pos {
+    margin: 6px 0 10px 0;
+}
+
+.profile-activity h5 {
+    font-weight: 300;
+    margin-top: 0;
+    color: #c3c3c3;
+}
+
+.summary-head {
+    background: #ee7272;
+    color: #fff;
+    text-align: center;
+    border-bottom: 1px solid #ee7272;
+}
+
+.summary-head h4 {
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.summary-head p {
+    color: rgba(255,255,255,0.6);
+}
+
+ul.summary-list {
+    display: inline-block;
+    padding-left:0 ;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+ul.summary-list > li {
+    display: inline-block;
+    width: 19.5%;
+    text-align: center;
+}
+
+ul.summary-list > li > a > i {
+    display:block;
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+ul.summary-list > li > a {
+    padding: 10px 0;
+    display: inline-block;
+    color: #818181;
+}
+
+ul.summary-list > li  {
+    border-right: 1px solid #eaeaea;
+}
+
+ul.summary-list > li:last-child  {
+    border-right: none;
+}
+
+.activity {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.activity.alt {
+    width: 100%;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.activity span {
+    float: left;
+}
+
+.activity.alt span {
+    float: right;
+}
+.activity span, .activity.alt span {
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    background: #eee;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+}
+
+.activity.terques span {
+    background: #8dd7d6;
+}
+
+.activity.terques h4 {
+    color: #8dd7d6;
+}
+.activity.purple span {
+    background: #b984dc;
+}
+
+.activity.purple h4 {
+    color: #b984dc;
+}
+.activity.blue span {
+    background: #90b4e6;
+}
+
+.activity.blue h4 {
+    color: #90b4e6;
+}
+.activity.green span {
+    background: #aec785;
+}
+
+.activity.green h4 {
+    color: #aec785;
+}
+
+.activity h4 {
+    margin-top:0 ;
+    font-size: 16px;
+}
+
+.activity p {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+.activity .activity-desk i, .activity.alt .activity-desk i {
+    float: left;
+    font-size: 18px;
+    margin-right: 10px;
+    color: #bebebe;
+}
+
+.activity .activity-desk {
+    margin-left: 70px;
+    position: relative;
+}
+
+.activity.alt .activity-desk {
+    margin-right: 70px;
+    position: relative;
+}
+
+.activity.alt .activity-desk .panel {
+    float: right;
+    position: relative;
+}
+
+.activity-desk .panel {
+    background: #F4F4F4 ;
+    display: inline-block;
+}
+
+
+.activity .activity-desk .arrow {
+    border-right: 8px solid #F4F4F4 !important;
+}
+.activity .activity-desk .arrow {
+    border-bottom: 8px solid transparent;
+    border-top: 8px solid transparent;
+    display: block;
+    height: 0;
+    left: -7px;
+    position: absolute;
+    top: 13px;
+    width: 0;
+}
+
+.activity-desk .arrow-alt {
+    border-left: 8px solid #F4F4F4 !important;
+}
+
+.activity-desk .arrow-alt {
+    border-bottom: 8px solid transparent;
+    border-top: 8px solid transparent;
+    display: block;
+    height: 0;
+    right: -7px;
+    position: absolute;
+    top: 13px;
+    width: 0;
+}
+
+.activity-desk .album {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.activity-desk .album a{
+    margin-right: 10px;
+}
+
+.activity-desk .album a:last-child{
+    margin-right: 0px;
+}
+  </style>
 </head>
 <body>
-    <div class="container h-100">
-  <div class="row h-100 align-items-center justify-content-center">
-    <div class="main">
-       {{#each results}}
-      <div class="info">
-        <img src="/images/profile.jpg" class="prof rounded-circle img-fluid" />
-        <h1>{{this.fname}}</h1>
-        <hr>
+<!-- header -->
+	<div class="agileits_header">
+		<div class="container"><marquee behavior="scroll" direction="left" scrollamount="10" >
+			<div class="w3l_offers">
+				<p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
+			</div>
+			</marquee>
+		</div>
+	</div>
+
+	<div class="logo_products">
+		<div class="container">
+		<div class="w3ls_logo_products_left1">
+				<ul class="phone_email">
+					<li><i class="fa fa-phone" aria-hidden="true"></i>Order online or call us : 8156840102 </li>
+					
+				</ul>
+			</div>
+			<div class="w3ls_logo_products_left">
+				<h1><a href="/users">KIKKI MART</a></h1>
+			</div>
+		<div class="w3l_search">
+			<form action="#" method="post">
+				<input type="search" name="Search" placeholder="Search for a Product..." required="">
+				<button type="submit" class="btn btn-default search" aria-label="Left Align">
+					<i class="fa fa-search" aria-hidden="true"> </i>
+				</button>
+				<div class="clearfix"></div>
+			</form>
+		</div>
+			
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //header -->
+<!-- navigation -->
+	<div class="navigation-agileits">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<marquee behavior="scroll" direction="right" scrollamount="10" >
+			<div class="w3l_offers">
+				<p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
+			</div>
+			</marquee>
+			</nav>
+		</div>
+	</div>
+
+	<!-- //navigation -->
+<!-- //navigation -->
+
+<div style="padding: 40px;" class="container bootstrap snippets bootdey">
+  {{#each results}}
+<div class="row">
+  <div class="profile-nav col-md-3">
+      <div class="panel">
+          <div class="user-heading round">
+              <a href="#">
+                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+              </a>
+              <h1>{{this.fname}}</h1>
+              <p>{{this.mail}}</p>
+          </div>
+          <ul class="nav nav-pills nav-stacked">
+              <li><a href="/users/editProfile?id={{this._id}}"> <i class="fa fa-edit"></i> Edit profile</a></li>
+          </ul>
       </div>
-      <div class="body">
-       <ul class="fa-ul">
-         <li>Mail: {{this.mail}}</li>
-         <li>Mobile: {{this.mobile}}</li>
-        </ul>
-      </div>
-      {{/each}}
-      <div style="margin-left: 75px; margin-top: 15px;">
-        <a href="/viewOrders"><button>Orders</button></a>
-        <a href="/logout"><button>Logout</button></a>
-      </div>
-    </div>
   </div>
+  <div class="profile-info col-md-9">
+      
+      <div class="panel">
+          <div class="bio-graph-heading">
+           "Life is very short, Get start your shopping."
+           </div>
+          <div class="panel-body bio-graph-info">
+              <h1>Bio Graph</h1>
+              <div class="row">
+                  <div class="bio-row">
+                      <p><span>First Name </span>: {{this.fname}}</p>
+                  </div>
+                  <div class="bio-row">
+                      <p><span>Last Name </span>: {{this.lname}}</p>
+                  </div>
+                  <div class="bio-row">
+                      <p><span>Country </span>: {{this.country}}</p>
+                  </div>
+                  <div class="bio-row">
+                      <p><span>Mobile </span>: {{this.mobile}}</p>
+                  </div>
+                  <div class="bio-row">
+                      <p><span>Occupation </span>: {{this.occupation}}</p>
+                  </div>
+                  <div class="bio-row">
+                      <p><span>Email </span>: {{this.mail}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
 </div>
+{{/each}}
+</div>
+</div>
+<!-- //footer -->
+<div class="footer">
+		<div class="container">
+			<div class="w3_footer_grids">
+				<div class="col-md-3 w3_footer_grid">
+					<h3>Contact</h3>
+					
+					<ul class="address">
+						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>KIKKI MART, EAST KALLADA, <span>KOLLAM.</span></li>
+						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a>kikkimart@123.com</a></li>
+						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>8156840102</li>
+					</ul>
+				</div>
+				<div class="col-md-3 w3_footer_grid">
+					<h3>Information</h3>
+					<ul class="info"> 
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="about">About Us</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="contact">Contact Us</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="offers">Offers</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 w3_footer_grid">
+					<h3>Category</h3>
+					<ul class="info"> 
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="groceries">Groceries</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="household">Household</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="personalcare">Personal Care</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="packagedfoods">Packaged Foods</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="beverages">Beverages</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 w3_footer_grid">
+					<h3>Profile</h3>
+					<ul class="info">
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="signUp">Create Account</a></li>
+						<li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="logIn">Login</a></li>
+					</ul>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		
+		<div class="footer-copy">
+			
+			<div class="container">
+				<p>Design by <a>SHINU VARGHESE</a></p>
+			</div>
+		</div>
+		
+	</div>	
+	<div class="footer-botm">
+			<div class="container">
+				<div class="w3layouts-foot">
+					<ul>
+						<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a href="#" class="w3_agile_dribble"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="payment-w3ls">	
+					<img src="/images/card.png" alt=" " class="img-responsive">
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+<!-- //footer -->		
+<!-- Bootstrap Core JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+<!-- top-header and slider -->
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+			$().UItoTop({ easingType: 'easeOutQuart' });
+								
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+<script src="/js/minicart.min.js"></script>
+<script>
+	// Mini Cart
+	paypal.minicart.render({
+		action: '#'
+	});
+
+	if (~window.location.search.indexOf('reset=true')) {
+		paypal.minicart.reset();
+	}
+</script>
+<!-- main slider-banner -->
+<script src="/javascripts/skdslider.min.js"></script>
+<link href="/stylesheets/skdslider.css" rel="stylesheet">
+<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
+						
+			jQuery('#responsive').change(function(){
+			  $('#responsive_wrapper').width(jQuery(this).val());
+			});
+			
+		});
+</script>	
+<!-- //main slider-banner --> 
 </body>

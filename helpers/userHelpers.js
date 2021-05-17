@@ -53,6 +53,13 @@ module.exports = {
       .findOne({ mail: dummy.mail });
     callback(data);
   },
+  checkUserStatus: async (userId, callback) => {
+    var data = await db
+      .get()
+      .collection(collection.user_collections)
+      .findOne({ _id:objectId(userId) });
+    callback(data);
+  },
   removeUser: async (query, callback) => {
     var response = await db
       .get()
@@ -310,7 +317,7 @@ module.exports = {
      }
     });
   },
-  removeCaartProduct:(details) => {
+  removeCartProduct:(details) => {
   return new Promise((resolve, reject) => {
     db.get().collection(collection.cart_collections)
          .updateOne({_id:objectId(details.cart)},
@@ -369,7 +376,7 @@ module.exports = {
         ]).toArray()
         resolve(total[0].total)
       }else{
-        resolve()
+        resolve(false)
       }  
     });
 
@@ -410,14 +417,46 @@ module.exports = {
   getUserOrders:(userId) => {
     return new Promise( async(resolve,reject)=>{
         let orders=await db.get().collection(collection.order_collections)
-        .find({userId:objectId(userId)}).toArray()
+        .find({userId:objectId(userId),status:'placed'}).toArray()
         resolve(orders)
     })
   },
-
+  getCanceledOrders:(userId) => {
+    return new Promise( async(resolve,reject)=>{
+        let orders=await db.get().collection(collection.order_collections)
+        .find({userId:objectId(userId),status:'Canceled'}).toArray()
+        resolve(orders)
+    })
+  },
+  getAllCanceledOrders:(userId) => {
+    return new Promise( async(resolve,reject)=>{
+        let orders=await db.get().collection(collection.order_collections)
+        .find({status:'Canceled'}).toArray()
+        resolve(orders)
+    })
+  },
   cancelOrder:(orderId) => {
     return new Promise( async(resolve,reject)=>{
-        let orders=await db.get().collection(collection.order_collections).removeOne({_id:objectId(orderId)})
+        let orders=await db.get().collection(collection.order_collections).updateOne({_id:objectId(orderId)},
+        {
+          $set: {
+            status: 'Canceled',
+          },
+        })
+        
+        resolve(orders)
+      })
+  },
+
+  admincancelOrder:(orderId) => {
+    return new Promise( async(resolve,reject)=>{
+        let orders=await db.get().collection(collection.order_collections).updateOne({_id:objectId(orderId)},
+        {
+          $set: {
+            status: 'Canceled',
+          },
+        })
+        
         resolve(orders)
       })
   },
@@ -466,12 +505,29 @@ module.exports = {
       .toArray();
     callback(data);
   },
+
+  editUserProfile:(userId,data,callback) => {
+   var data= db.get()
+      .collection(collection.user_collections)
+      .updateOne({_id:objectId(userId)},
+      {
+          $set:{
+            fname:data.fname,
+            lname:data.lname,
+            occupation:data.occupation,
+            country:data.country,
+            mobile:data.mobile,
+            mail:data.mail
+          }
+      })
+      callback(data)
+  },
   
   findAllOrders:async(body,callback)=>{
     var data = await db
       .get()
       .collection(collection.order_collections)
-      .find()
+      .find({status:'placed'})
       .toArray();
     callback(data);
   }

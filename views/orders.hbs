@@ -67,9 +67,10 @@
 <!-- //breadcrumbs -->
 <!-- checkout -->
 	<div class="checkout">
-		<div class="container">
+		<div style="padding-bottom: 5%;" class="container">
 			<div class="checkout-right">
 				<table class="timetable_sub">
+					<h3 style="padding-bottom: 5px;">Placed Orders</h3>
 					<thead>
 						<tr>
 							<th>Date</th>	
@@ -92,7 +93,40 @@
 						<td>{{this.totalAmount}}</td>
 						<td>{{this.paymentMethod}}</td>
 						<td>{{this.status}}</td>
-						<td><a href="/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a><a href="/cancelOrder?id={{this._id}}" style="color: black;"><button class="orderButton">cancel</button></a></td>
+						<td><a href="/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a><a href="/cancelOrder?id={{this._id}}" style="color: black;"><button onclick="return confirm('Are you want to cancel order ?')" class="orderButton">cancel</button></a></td>
+					</tr>
+                    </tbody>
+					{{/each}}
+				</table>
+			</div>
+		</div>
+		<div class="container">
+			<div class="checkout-right">
+				<table class="timetable_sub">
+					<h3 style="padding-bottom: 5px;">Canceled Orders</h3>
+					<thead>
+						<tr>
+							<th>Date</th>	
+							<th>Address</th>
+							<th>Pincode</th>
+							<th>Mobile</th>
+							<th>Amount</th>
+							<th>Payment</th>
+							<th>Status</th>
+							<th>Options</th>
+						</tr>
+					</thead>
+					{{#each canceled}}	
+                    <tbody id="customers">
+					<tr class="rem2">
+						<td>{{this.date}}</td>
+						<td>{{this.deliveryDetails.address}}</td>
+						<td>{{this.deliveryDetails.pincode}}</td>
+						<td>{{this.deliveryDetails.mobile}}</td>
+						<td>{{this.totalAmount}}</td>
+						<td>{{this.paymentMethod}}</td>
+						<td>{{this.status}}</td>
+						<td><a href="/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a></td>
 					</tr>
                     </tbody>
 					{{/each}}
@@ -191,30 +225,5 @@
 							
 		});
 </script>
-<!-- //here ends scrolling icon -->
-<script src="js/minicart.min.js"></script>
-<script>
-// Mini Cart
-paypal.minicart.render({
-	action: '#'
-});
-
-if (~window.location.search.indexOf('reset=true')) {
-	paypal.minicart.reset();
-}
-</script>
-<!-- main slider-banner -->
-<script src="js/skdslider.min.js"></script>
-<link href="css/skdslider.css" rel="stylesheet">
-<script type="text/javascript">
-	jQuery(document).ready(function(){
-		jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
-					
-		jQuery('#responsive').change(function(){
-		  $('#responsive_wrapper').width(jQuery(this).val());
-		});
-		
-	});
-</script>	
 <!-- //main slider-banner --> 
 </body>

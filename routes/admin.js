@@ -151,7 +151,7 @@ router.get('/addProducts', function(req, res) {
   })
 
 });
-
+ 
 router.post('/addProducts', function(req, res) {
 
   userHelpers.addProducts(req.body,(id)=>{
@@ -210,13 +210,25 @@ router.get('/removeProducts', function(req, res) {
 //-------*Order*---------//
 
 router.get('/manageOrders', function(req, res) {
-  userHelpers.findAllOrders(req.body,(orders)=>{
-    if(orders){
-      
-       res.render('manageOrders',{orders})
+  userHelpers.findAllOrders(req.body,async(orders)=>{
+    let canceled = await userHelpers.getAllCanceledOrders(
+    );
+    if(orders){ 
+       res.render('manageOrders',{orders,canceled})
     }
   })
 
+});
+
+router.get("/adminCancelOrder/", (req, res) => {
+        if (req.session.adminloggedIn) {
+          userHelpers.admincancelOrder(req.query.id).then((response) => {
+            res.redirect("/admin/manageOrders");
+          });
+        } else {
+          res.redirect("/admin");
+        }
+    
 });
 
 module.exports = router;

@@ -82,7 +82,7 @@
 								</div>
 							</div>
 						</td>
-						<td><button class="orderButton" onclick="removeCaartProduct('{{this._id}}','{{this.product._id}}')">Remove</button></td>
+						<td><button class="orderButton" onclick="removeCartProduct('{{this._id}}','{{this.product._id}}')">Remove</button></td>
 						
 					</tr>
 					{{/each}}		
@@ -200,10 +200,11 @@
 				if(response.removeProduct){
 					alert("Product Removed from cart")
 					location.reload()
-				}else{
-					console.log(response)
+				}else if(response){
 					document.getElementById(productId).innerHTML=quantity+count
 					document.getElementById('total').innerHTML=response.total
+				}else{
+					location.href='/'
 				}
 			}
 		})
@@ -212,9 +213,9 @@
 </script>
 
 <script>
-	function removeCaartProduct(cartId,productId){
+	function removeCartProduct(cartId,productId){
 		$.ajax({
-			url:'/removeCaartProduct',
+			url:'/removeCartProduct',
 			data:{
 				cart:cartId,
 				product:productId,
@@ -227,7 +228,7 @@
 				}else{
 					alert("Error")
 				}
-			}
+			} 
 		})
 
 	}

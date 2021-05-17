@@ -21,17 +21,11 @@
 <!-- header -->
 	<div class="agileits_header">
 		<div class="container-nav">
+			<marquee behavior="scroll" direction="right" scrollamount="10" >
 			<div class="w3l_offers">
-				<p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="">SHOP NOW</a></p>
+				<p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
 			</div>
-			<div class="agile-login">
-				<ul>
-					<li><a href="about">About Us</a></li>
-					<li><a href="contact">Help</a></li>
-					<li><a href="login">Login</a></li>
-					
-				</ul>
-			</div>
+			</marquee>
 			<div class="clearfix"> </div>
 		</div>
 	</div>
@@ -64,7 +58,7 @@
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
 				<li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-				<li class="active">Register Page</li>
+				<li class="active">Edit Profile</li>
 			</ol>
 		</div>
 	</div>
@@ -72,42 +66,23 @@
 <!-- register -->
 	<div class="register">
 		<div class="container">
-			<h2>Register Here</h2>
+			<h2>Edit your profile</h2>
 			 <div class="login-form-grids">
 				<label class="err">{{usedMail}}</label>
-				<form id="form" action="signUp" method="POST">
-					<input type="text" name="fname" placeholder="First name..." ><br>
-					<input type="text" name="lname" placeholder="Last name..." ><br>
-					<input type="text" name="occupation" placeholder="Occupation..." ><br>
-					<input type="text" name="country" placeholder="Country..." ><br>
-					<input type="text" name="mobile" placeholder="Mobile number..."><br>
-					<input type="text" name="mail"  placeholder="Email Address"><br>
-					<input type="password" id="pass" name="pass" onchange="validatePassword()" placeholder="Password"><br>
-					<input type="password" id="confirm" name="confirm" onkeyup="validatePassword()" placeholder="Confirm Password">
-					<label style="color: rgb(254, 145, 38);" id="validate_confirm"></label>
-					<input type="hidden" name="status" value="Block">
-					<input type="submit" value="Register">
+				{{#each result}}
+				<form id="form" action="/users/editProfileSubmit?id={{this._id}}" method="POST">
+					<input type="text" name="fname" value="{{this.fname}}" ><br>
+					<input type="text" name="lname" value="{{this.lname}}" ><br>
+					<input type="text" name="occupation" value="{{this.occupation}}" ><br>
+					<input type="text" name="country" value="{{this.country}}" ><br>
+					<input type="text" name="mobile" value="{{this.mobile}}"><br>
+					<input type="text" name="mail"  value="{{this.mail}}"><br>
+					<input type="submit" value="Update">
 				</form>
-			</div>
-			<div class="register-home">
-				<a href="/">Home</a>
+				{{/each}}
 			</div>
 		</div>
 	</div>
-<script>
-function validatePassword() {
-	
-var password = document.getElementById("pass")
-var confirm_password = document.getElementById("confirm");
-
-  if(password.value != confirm_password.value) {
-    document.getElementById("validate_confirm").innerHTML="Please Confirm Your Password"
-  } else {
-    document.getElementById("validate_confirm").innerHTML=" "
-  }
-}
-
-</script>
 <!-- //register -->
 
 <!-- //footer -->

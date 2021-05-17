@@ -25,6 +25,9 @@ $("#form").validate({
             minlength:4,
             alphanumeric: true
         },
+        occupation:{
+            required:true,
+        },
         country:{
             minlength:4,
             required:true,
@@ -109,6 +112,9 @@ $("#form").validate({
             alphanumeric: 'Enter Only Charactors',
             minlength:'Enter minimum 4 charractors',
         },
+        occupation:{
+            required: 'Please Enter Your Occupation',
+        },
         country:{
             required: 'Please Enter Your Country Name',
             alphanumeric: 'Enter Only Charactors',
@@ -177,7 +183,6 @@ $("#form").validate({
         }
         
     },
-    
     
 }) 
      
