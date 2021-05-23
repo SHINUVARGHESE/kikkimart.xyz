@@ -6,6 +6,7 @@ module.exports={
     product_collections:'product',
     cart_collections:'cart',
     order_collections:'order',
+    address_collections:'address',
 
 
 }

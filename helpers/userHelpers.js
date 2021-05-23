@@ -3,6 +3,12 @@ var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
 var objectId = require("mongodb").ObjectID;
 const { response } = require("express");
+const Razorpay = require('razorpay');
+const { request } = require("http");
+var instance = new Razorpay({
+  key_id: 'rzp_test_B1Edfkjazm7n03',
+  key_secret: 'rPiblaVGYYLwwEOP9ktPdKU6',
+});
 module.exports = {
   dosignUp: (userData, callback) => {
     return new Promise(async (resolve, reject) => {
@@ -28,7 +34,7 @@ module.exports = {
           if (status) {
             response.data = data;
             response.status = true;
-            resolve(response);
+            resolve(response.data);
           } else {
             resolve({ status: false });
           }
@@ -38,7 +44,14 @@ module.exports = {
       }
     });
   },
-  findUser: async (dummy, callback) => {
+  findUser: async(mobile, callback) => {
+  var data = await db.get()
+      .collection(collection.user_collections) 
+      .find({mobile:mobile})
+      .toArray();
+    callback(data);
+  },
+  adminfindUser: async (body, callback) => {
     var data = await db
       .get()
       .collection(collection.user_collections)
@@ -187,6 +200,16 @@ module.exports = {
         });
     });
   },
+  findMobile: (dummy, callback) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.user_collections)
+        .findOne({ mobile: dummy.mobile })
+        .then((data) => {
+          callback(data);
+        });
+    });
+  },
   addToCart: (userId, productId) => {
     let proObj={
       item:objectId(productId),
@@ -239,7 +262,6 @@ module.exports = {
     });
   },
   cartProducts: (userId) => {
-    console.log(userId);
     return new Promise(async (resolve, reject) => {
       let userCart = await db
         .get()
@@ -401,7 +423,7 @@ module.exports = {
 
         db.get().collection(collection.order_collections).insertOne(orderObj).then((response)=>{
           db.get().collection(collection.cart_collections).removeOne({user:objectId(order.userid)})
-          resolve()
+          resolve(response.ops[0]._id)
         })
     })
   },
@@ -492,7 +514,6 @@ module.exports = {
           }
         }
       ]).toArray()
-      console.log(orderItem);
       resolve(orderItem)
     })
   },
@@ -530,6 +551,117 @@ module.exports = {
       .find({status:'placed'})
       .toArray();
     callback(data);
-  }
+  },
 
+  generateRazorpay:(orderId,total)=>{
+    return new Promise((resolve,reject)=>{
+      var options = {
+        amount: total*100,  // amount in the smallest currency unit
+        currency: "INR",
+        receipt: ""+orderId 
+      };
+      instance.orders.create(options, function(err, order) {
+        resolve(order)
+      });
+    })
+  },
+
+  verifyPayment:(details)=>{
+    return new Promise((resolve,reject)=>{
+      const crypto = require('crypto');
+      let hmac =crypto.createHmac('sha256','rPiblaVGYYLwwEOP9ktPdKU6')
+      hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]']);
+      hmac=hmac.digest('hex')
+      if(hmac==details['payment[razorpay_signature]']){
+          resolve()
+      }else{
+        reject()
+      }
+    })
+  },           
+
+  changePaymentStatus:(orderId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collection.order_collections).updateOne({_id:objectId(orderId)},
+      {
+          $set:{
+            status:'placed'
+          }
+      }).then(()=>{
+         resolve()
+      })
+    })
+  },
+
+  findAddress:(usersId,data)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(data.address+"").findOne({userId:usersId+"",status:data.address+""}).then((response) => {
+        resolve(response);
+      });
+
+    })
+
+  },
+
+  addAddress:(body,query)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(query.address).insertOne({userId:query.id,status:query.address,address:body}).then((response) => {
+        resolve(response.ops[0]);
+      });
+
+    })
+
+  },
+  updateAddress:(usersId,body,query)=>{
+    return new Promise((resolve,reject)=>{
+      if(query.address=='address1'){
+      db.get().collection('address1').updateOne({userId : usersId+"",status:'address1'},{
+        $set: {
+          address: body
+        },
+      }).then((response) => {
+        resolve(response);
+      });
+     }else if(query.address=='address2'){
+      db.get().collection('address2').updateOne({ 
+        userId : usersId+"",status:'address2'},{
+        $set: {
+          address: body
+        },
+      }).then((response) => {
+        resolve(response);
+      });
+    }else{
+      db.get().collection('address3').updateOne({
+        userId : usersId+"",status:'address3'},{
+        $set: {
+          address: body
+        },
+      }).then((response) => {
+        resolve(response);
+      });
+    }
+    })
+
+  },
+  
+  removeAddress:(usersId,add)=>{
+    return new Promise((resolve,reject)=>{
+      if(add=='address1'){
+        db.get().collection('address1').deleteOne({userId:usersId+""}).then((response) => {
+          resolve(response);
+        });
+       }else if(add=='address2'){
+        db.get().collection('address2').deleteOne({
+          status:'address2',userId: usersId+""},{userId:usersId+""}).then((response) => {
+          resolve(response);
+        });
+      }else if(add=='address3'){
+        db.get().collection('address3').deleteOne({
+          status:'address3',userId: usersId+""},{userId:usersId+""}).then((response) => {
+          resolve(response);
+        });
+      }
+    })
+  }
 };

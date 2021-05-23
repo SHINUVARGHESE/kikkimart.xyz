@@ -1,0 +1,108 @@
+<head>
+	<title>Manage Address</title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+
+</head>
+	
+<body>
+<!-- header -->
+	<div class="agileits_header">
+		<div class="container-nav">
+			<marquee behavior="scroll" direction="right" scrollamount="10" >
+			<div class="w3l_offers">
+				<p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
+			</div>
+			</marquee>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+
+	<div class="logo_products">
+		<div class="container">
+		<div class="w3ls_logo_products_left1">
+				<ul class="phone_email">
+					<li><i class="fa fa-phone" aria-hidden="true"></i>Order online or call us : 8156840102</li>
+					
+				</ul>
+			</div>
+			<div class="w3ls_logo_products_left">
+				<h1><a href="/">KIKKI MART</a></h1>
+			</div>
+		   <div class="w3ls_logo_products_left1">
+				<ul class="phone_email">
+					<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i> East Kallada, Kollam, Kerala</li>
+					
+				</ul>
+			</div>
+			
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //header -->
+
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1">
+				<li><a href="/users"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Manage Address</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<div style="margin-left: 15%;">
+  <h2 class="table_top md-6">Manage Address</h2>
+<table style="width: 70%;" id="customers">
+<label style="margin-left: 60px; color: #fe9126;">{{err}}</label> 	
+<thead>	
+  <tr> 
+    <th>SI</th>
+    <th>Address</th>
+	<th style="padding-left: 10%;">Details</th>
+    <th style="padding-left: 29%;">*------ options -------*</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  	<td class="counterCell"></td>
+    <td>Address 1</td>
+	<td></td>
+    <td style="float: right;"><a href="/users/addAddress?address=address1"><button>Add</button></a>
+    <a href="/users/editAddress?address=address1"><button>Edit</button></a>
+    <a href="/users/removeAddress?address=address1"><button>Remove</button></a></td>
+  </tr>
+  <tr> 
+  	<td class="counterCell"></td>
+    <td>Address 2</td>
+	<td></td>
+	<td style="float: right;"><a href="/users/addAddress?address=address2"><button>Add</button></a>
+    <a href="/users/editAddress?address=address2"><button>Edit</button></a>
+    <a href="/users/removeAddress?address=address2"><button>Remove</button></a></td>
+  </tr>
+  <tr>
+  	<td class="counterCell"></td>
+    <td>Address 3</td>
+	<td></td>
+    <td style="float: right;"><a href="/users/addAddress?address=address3"><button>Add</button></a>
+	<a href="/users/editAddress?address=address3"><button>Edit</button></a>
+    <a href="/users/removeAddress?address=address3"><button>Remove</button></a></td>
+  </tr>
+  </tbody>
+</table>
+</div>	
+<!-- //main slider-banner --> 
+</body>

@@ -59,7 +59,7 @@
 	<div class="breadcrumbs">
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1">
-				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li><a href="/admin/adminPage"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Admin</a></li>
 				<li class="active">Order Details</li>
 			</ol>
 		</div>
@@ -93,7 +93,7 @@
 						<td>{{this.totalAmount}}</td>
 						<td>{{this.paymentMethod}}</td>
 						<td>{{this.status}}</td>
-						<td><a href="/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a><a href="/cancelOrder?id={{this._id}}" style="color: black;"><button onclick="return confirm('Are you want to cancel order ?')" class="orderButton">cancel</button></a></td>
+						<td><a href="/admin/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a><a href="/admin/adminCancelOrder?id={{this._id}}" style="color: black;"><button onclick="return confirm('Are you want to cancel order ?')" class="orderButton">cancel</button></a></td>
 					</tr>
                     </tbody>
 					{{/each}}
@@ -126,7 +126,7 @@
 						<td>{{this.totalAmount}}</td>
 						<td>{{this.paymentMethod}}</td>
 						<td>{{this.status}}</td>
-						<td><a href="/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a></td>
+						<td><a href="/admin/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a></td>
 					</tr>
                     </tbody>
 					{{/each}}

@@ -74,6 +74,11 @@ $("#form").validate({
         confirm:{
             required:true
         },
+        otp:{
+            required:true,
+            minlength:6,
+            maxlength:6
+        },
         content:{
             required:true
         },
@@ -157,6 +162,11 @@ $("#form").validate({
         },
         confirm:{
             required:' '
+        },
+        otp:{
+            required:'Please Enter Your OTP',
+            minlength:'The OTP number want to be 6 digit',
+            maxlength:'The OTP number is only 6 digit',
         },
         content:{
             required:'Please enter your message'

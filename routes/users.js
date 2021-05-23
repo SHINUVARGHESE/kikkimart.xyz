@@ -11,7 +11,7 @@ router.get("/", function (req, res) {
           let users = req.session.user;
           userHelpers.findProducts(req.body, (results) => {
             userHelpers.findCategory(req.body, (result1) => {
-              userHelpers.findCount(users.data._id, (result2) => {
+              userHelpers.findCount(users._id, (result2) => {
                 if (results) {
                   res.render("user", { users, results, result1, result2 });
                 }
@@ -112,6 +112,142 @@ router.post("/editProfileSubmit", function (req, res) {
       req.session.userloggedIn = false;
       res.redirect("/");
     }
+  });
+});
+
+router.get("/manageAddress", function (req, res) {
+  userHelpers.checkUserStatus(req.session.userId, (result) => {
+    if (result) {
+      if (result.status == "Block") {
+        res.render("manageAddress");
+      } else {
+        req.session.userloggedIn = false;
+        res.redirect("/");
+      }
+    } else {
+      req.session.userloggedIn = false;
+      res.redirect("/");
+    }
+  });
+});
+
+router.get("/addAddress", function (req, res) {
+  userHelpers.checkUserStatus(req.session.userId, (result) => {
+    if (result) {
+      if (result.status == "Block") {
+        var userId = result._id;
+        userHelpers.findAddress(userId,req.query).then((response)=>{
+          if(response){
+            var err = "Address already added"
+          res.render('manageAddress',{err})
+        }else{
+          res.render('addAddress',{userId,address:req.query.address})
+        }
+       })
+      } else {
+        req.session.userloggedIn = false;
+        res.redirect("/");
+      }
+    } else {
+      req.session.userloggedIn = false;
+      res.redirect("/");
+    }
+  });
+});
+
+router.post("/addAddressSubmit/", function (req, res) {
+  userHelpers.checkUserStatus(req.session.userId, (result) => {
+    if (result) {
+      if (result.status == "Block") {
+       console.log(req.query.address)
+            userHelpers
+            .addAddress(req.body, req.query)
+            .then((response) => {
+              res.redirect("/users/manageAddress");
+            });
+      } else {
+        req.session.userloggedIn = false;
+        res.redirect("/");
+      }
+    } else {
+      req.session.userloggedIn = false;
+      res.redirect("/");
+    }
+  });
+});
+
+router.get("/editAddress/", function (req, res) {
+  userHelpers.checkUserStatus(req.session.userId, (result) => {
+    if (result) {
+      if (result.status == "Block") {
+        var userId = result._id;
+        userHelpers.findAddress(userId,req.query).then((response) => {
+          if(response){
+            var data = response.address
+        res.render("editAddress", { userId, address: req.query.address,data });
+        }else{
+          var err = 'Address not added'
+            res.render('manageAddress',{err})
+        }
+        });
+      } else {
+        req.session.userloggedIn = false;
+        res.redirect("/");
+      }
+    } else {
+      req.session.userloggedIn = false;
+      res.redirect("/");
+    }
+  });
+});
+
+router.post("/editAddressSubmit/", function (req, res) {
+  userHelpers.checkUserStatus(req.session.userId, (result) => {
+    if (result) {
+      if (result.status == "Block") {
+        var userId = result._id;
+        userHelpers
+          .updateAddress(userId, req.body, req.query)
+          .then((response) => {
+            res.redirect("/users/manageAddress");
+          });
+      } else {
+        req.session.userloggedIn = false;
+        res.redirect("/");
+      }
+    } else {
+      req.session.userloggedIn = false;
+      res.redirect("/");
+    }
+  });
+});
+
+router.get("/removeAddress/", function (req, res) {
+  userHelpers.checkUserStatus(req.session.userId, (result) => {
+    if (result) {
+      if (result.status == "Block") {
+        var userId = result._id;
+        userHelpers.removeAddress(userId,req.query.address).then((response) => {
+          res.redirect("/users/manageAddress");
+        });
+      } else {
+        req.session.userloggedIn = false;
+        res.redirect("/");
+      }
+    } else {
+      req.session.userloggedIn = false;
+      res.redirect("/");
+    }
+  });
+});
+
+router.post("/findAddress", function (req, res) {
+  userHelpers.findAddress(req.body.userId,req.body).then((response) => {
+    if(response){
+    res.json(response)
+   }else{
+     res.json(false)
+   }
   });
 });
 

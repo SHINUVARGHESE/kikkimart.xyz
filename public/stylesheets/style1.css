@@ -245,16 +245,16 @@ a:hover {
 }
 .header-right {
     float: right;
-    width: 50%;
+    width: 32%;
 }
 .header-left {
     float: left;
-    width: 45%;
+    width: 68%;
 }
 .logo-name {
     float: left;
     width: 30%;
-    margin: 0% 3% 0% 2%;
+    margin: 0% 0% 0% 0%;
 }
 .logo-name h1 {
     font-size: 2.5em;
@@ -280,42 +280,6 @@ span.logo-clr{
     top: 0px;
     right: 20px;
 }
-/*start search*/
-.search-box {
-    float: left;
-    width:40%;
-    margin-top: 0.5em;
-	position: relative;
-    z-index: 1;
-    display: inline-block;
-    border:2px solid rgb(197, 197, 197);
-}
-.search-box input[type="text"] {
-    outline: none;
-    background: #fff;
-    width: 86%;
-    margin: 0;
-    z-index: 10;
-    font-size: 0.9em;
-    color: #7A7B78;
-    padding: 0.5em 0.5em;
-    border: none;
-    -webkit-appearance: none;
-    display: inline-block;
-}
-.search-box input[type="submit"] {
-    background: url(../images/search.png)no-repeat;
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-   vertical-align: text-top;
-    border: none;
-    outline: none;
-}
-::-webkit-input-placeholder{
-   color:#7A7B78 !important;
-}
-/*--//search-ends --*/
 /*--- Progress Bar ----*/
 .meter {
 	position: relative;
@@ -797,7 +761,7 @@ ul.dropdown-menu.drp-mnu li {
     color: #fff;
     font-weight: normal;
     margin-top: .3em;
-    background-color:black;
+    background-color:#202121;
     padding:12px;
     border-radius:8px;
 }
@@ -2976,6 +2940,13 @@ input[type=checkbox].css-checkbox6:checked + label.css-label6 {
 	cursor: -moz-zoom-in;
 	cursor: zoom-in; 
 }
+table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}
 .mfp-auto-cursor .mfp-content {
 	cursor: auto; }
 .mfp-close, .mfp-arrow, .mfp-preloader, .mfp-counter {
@@ -3143,9 +3114,6 @@ li.dropdown.head-dpdn a.dropdown-toggle {
 .project-eff:hover span.rollover1 {
     width: 243px;
 }
-.search-box input[type="text"] {
-    width: 85%;
-}
 .boost-icons-list ul li {
     font-size: 0.9em;
 }
@@ -3208,9 +3176,6 @@ canvas#pie {
 .project-eff:hover span.rollover1 {
     width: 222px;
 }
-.search-box input[type="text"] {
-    width: 83%;
-}
 }
 @media (max-width:1024px){
 .page-container {
@@ -3223,10 +3188,6 @@ canvas#pie {
 }
 .logo-name {
     width: 37%;
-}
-.search-box {
-    float: left;
-    width: 55%;
 }
 li.dropdown.head-dpdn a.dropdown-toggle {
    margin: 1em 1.1em;
@@ -3476,15 +3437,9 @@ div#geoChart {
     width: 39%;
     margin: 0% 1% 0% 0%;
 }
-.search-box {
-    width: 60%;
-}
 .logo-name h1 {
     font-size: 1.7em;
         margin-top: 0.3em;
-}
-.search-box input[type="text"] {
-    width: 80%;
 }
 li.dropdown.head-dpdn a.dropdown-toggle {
     margin: 1em 1em;
@@ -3856,10 +3811,6 @@ canvas#pie {
 .header-left {
     float: none;
     width: 100%;
-    margin-bottom: 0.4em;
-}	
-.search-box {
-    margin-top: 0em;
 }
 .header-right {
     float: none;
@@ -3988,9 +3939,6 @@ canvas#line {
 .boost-icons-list ul li {
     width: 32%;
 }
-.search-box input[type="text"] {
-    width: 90%;
-}
 .mb40 {
     margin-bottom: 20px !important;
 }
@@ -4001,9 +3949,6 @@ canvas#line {
 }
 canvas#bar {
     width: 445px !important;
-}	
-.search-box input[type="text"] {
-    width: 88%;
 }
 canvas#line {
     width: 443px !important;
@@ -4015,9 +3960,6 @@ canvas#line {
 }
 canvas#bar {
     width: 409px !important;
-}
-.search-box input[type="text"] {
-    width: 88%;
 }
 canvas#line {
     width: 415px !important;
@@ -4205,13 +4147,6 @@ canvas#line {
 .boost-icons-list ul li {
     width: 49%;
 }
-.search-box input[type="text"] {
-    width: 85%;
-}
-.search-box input[type="submit"] {
-    background: url(../images/search.png)no-repeat 2px 2px;
-    background-size: 15px;
-}
 }
 @media (max-width:414px){
 .page-container {
@@ -4265,9 +4200,6 @@ canvas#bar {
 }
 .popular-follo-left p {
     font-size: 0.8em;
-}
-.search-box input[type="text"] {
-    width: 82%;
 }
 .profile_details ul li ul.dropdown-menu.drp-mnu {
     min-width: 146px;
@@ -4332,12 +4264,6 @@ canvas#pie {
 li.dropdown.head-dpdn a.dropdown-toggle {
     margin: 1em 0.4em;
 }
-.search-box {
-    width: 50%;
-}
-.search-box input[type="text"] {
-    width: 76%;
-}
 .profile_details_left {
     width: 40%;
 }
@@ -4346,10 +4272,6 @@ li.dropdown.head-dpdn a.dropdown-toggle {
 }
 .fixed {
     width: 84%;
-}
-.search-box {
-    width: 60%;
-    font-size: 0.8em;
 }
 .user-name {
     margin-left: 2px;
@@ -4406,11 +4328,6 @@ h3.tlt {
 }
 .chart-layer2-left h3 {
     font-size: 1em;
-}
-.search-box input[type="text"] {
-    width: 80%;
-    font-size: 0.95em;
-    padding: 0.5em 0.5em;
 }
 canvas#radar {
     width: 195px !important;

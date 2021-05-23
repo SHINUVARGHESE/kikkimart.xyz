@@ -24,8 +24,8 @@
     <!-- breadcrumbs -->
     <div class="breadcrumbs">
         <div class="container">
-            <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-                <li><a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <ol style="background-color: #3bd428;" class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+                <li><a href="/admin/adminPage"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Admin</a></li>
                 <li class="active">Add New Products</li>
             </ol>
         </div>
@@ -52,8 +52,8 @@
                     <textarea class="discription" name="discription"></textarea><br>
                     <input type="hidden" name="offerPrice" value="Nill">
                     <label>Product Image</label><br>
-                    <img style="width: 20%; margin-left: 5%;" id="imageView">
-                    <input  class="image" id="img" name="image"  onchange="viewImage(event)" type="file">
+                    <img style="width: 30%; padding-bottom: 10px;" id="imageView">
+                    <input style="width: 98px;" name="image2" class="image" id="img" onchange="viewImage(event)" type="file">
                         <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <input type="hidden" name="image1" id="cropedImage">
 
                     <input type="submit" value="Add">
                 </form>
@@ -143,8 +143,8 @@
         });
         $("#crop").click(function () {
             canvas = cropper.getCroppedCanvas({
-                width: 160,
-                height: 160,
+                width: 150,
+                height: 150,
             });
             
             canvas.toBlob(function (blob) {
@@ -153,7 +153,18 @@
                 reader.readAsDataURL(blob);
                 reader.onloadend = function () {
                     var base64data = reader.result;
+                 document.getElementById('imageView').src = url
+                 document.getElementById('cropedImage').value = base64data
 
+                    $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "/admin/cropped",
+                    data: {image: base64data},
+                    success: function(data) { 
+                    bs_modal.modal('hide');
+                    }
+                });
                 };
             });
         });

@@ -961,6 +961,19 @@ a.w3_agile_vimeo:hover{
     background-color: #3bd428;
     border-radius: 4px;
 }
+.otp{
+    width: 20%;
+    height: 39px; 
+    background-color: #fe9126; 
+    color: cornsilk; 
+    border:0px;
+    margin-top: 1px;
+    float: right;
+}
+.otp:hover{
+
+    background-color: #3bd428;
+}
 .breadcrumbs {
     padding: 1.5em 0;
     background: #3bd428;
