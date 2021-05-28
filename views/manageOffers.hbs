@@ -1,0 +1,74 @@
+<head>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<!-- start-smoth-scrolling -->
+</head>
+	
+<body>
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="/admin/adminPage">Admin</a></li>
+				<li class="active">Manage</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<div>
+  <h2 class="table_top md-6">Product Offers</h2>            
+  <a href="/admin/addOffers"><button class="ad">Add new offer</button></a>&nbsp;
+<table id="customers">
+<thead>	
+  <tr>
+    <th>SI</th>
+    <th>Product Name</th>
+    <th>Image</th>
+    <th>Price</th>
+    <th>Offer Price</th>
+    <th>Ending time</th>
+    <th style="padding-left: 3%;">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+   {{#each offerPro}}
+  <tr>
+  	<td class="counterCell"></td>
+    <td>{{this.proname}}</td>
+    <td><img style="width: 80px; height:80px;" src="/product_images/{{this.proId}}.jpg"></td>
+    <td>{{this.price}}</td>
+    <td>{{this.offerPrice}}</td>
+    <td>{{this.endingTime}}</td> 
+    <td><a href="/admin/editOffers?id={{this._id}}"><button>Edit</button></a>&nbsp;<a href="/admin/removeOffers?id={{this._id}}"><button>Remove</button></a></td>
+  </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>
+<div>
+  <h2 class="table_top md-6">Category Offers</h2>            
+  <a href="/admin/addCategoryOffers"><button class="ad">Add Category offer</button></a>&nbsp;
+<table id="customers">
+<thead>	
+  <tr>
+    <th>SI</th>
+    <th>Category Name</th>
+    <th>Offer Persentage</th>
+    <th>Ending time</th>
+    <th style="padding-left: 3%;">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+   {{#each catOfferPro}}
+  <tr>
+  	<td class="counterCell"></td>
+    <td>{{this.catname}}</td>
+    <td>{{this.offerPersentage}}</td>
+    <td>{{this.endingTime}}</td> 
+    <td><a href="/admin/editCategoryOffers?id={{this._id}}"><button>Edit</button></a>&nbsp;<a href="/admin/removeCategoryOffers?id={{this._id}}"><button>Remove</button></a></td>
+  </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>	
+<!-- //main slider-banner --> 
+</body>

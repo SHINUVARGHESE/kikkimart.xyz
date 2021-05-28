@@ -1,0 +1,59 @@
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link href="/stylesheets/cropper.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .preview {
+            overflow: hidden;
+            width: 160px;
+            height: 160px;
+            margin: 10px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <ol style="background-color: #3bd428;" class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+                <li><a href="/admin/adminPage"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Admin</a></li>
+                <li class="active">Edit Category Offers</li>
+            </ol>
+        </div>
+    </div>
+    <!-- //breadcrumbs -->
+    <!-- register -->
+    <div class="register">
+        <div class="container">
+            <h2>Edit Category Offers</h2>
+            <div class="login-form-grids">
+                {{#each category}}
+                <form id="form" action="/admin/editCatOffersSubmit" enctype="multipart/form-data" method="POST">
+                    <label>Category name</label><br>
+                    <input required type="text" name="catname" value="{{this.catname}}" disabled><br>
+                    <label>Offer Persentage</label><br>
+                    <input type="text" name="offerPersentage" value="{{this.offerPersentage}}"><br>
+                    <label>Ending time</label><br>
+                    <input type="date" style="width:100%;" name="endingTime" value="{{this.endingTime}}">
+                    <input type="hidden" name="id" value="{{this._id}}"><br>
+                    <input type="submit" value="Update">
+                </form>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <!-- //register -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src='/js/validation.js'></script>
+</body>

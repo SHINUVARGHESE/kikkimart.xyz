@@ -81,9 +81,14 @@ router.get("/editProfile", function (req, res) {
   userHelpers.checkUserStatus(req.session.userId, (result) => {
     if (result) {
       if (result.status == "Block") {
+        if (req.session.userloggedIn) {
         userHelpers.findSingleUser(req.session.userId, (result) => {
           res.render("editProfile", { result });
         });
+      }else{
+        req.session.userloggedIn = false;
+        res.redirect("/");
+      }
       } else {
         req.session.userloggedIn = false;
         res.redirect("/");
@@ -249,6 +254,51 @@ router.post("/findAddress", function (req, res) {
      res.json(false)
    }
   });
+});
+
+router.get("/coupon&referral", function (req, res) {
+  userHelpers.findReferral(req.session.userId).then((response) => {
+    userHelpers.findSuggested(response.referral).then((suggested) => {
+      var reffEarning = suggested.length*100
+      if(response.coupon){
+        userHelpers.findUserCoupon(response.coupon).then((result) => {
+          let currentDate = new Date();
+          var date = currentDate;
+          var day = date.getDate();
+          var month = date.getMonth()+1;
+          var year = date.getFullYear();
+          var newDate = year+"-"+month+"-"+day
+          if(result){
+          res.render('coupon&referral',{branches:suggested.length,reffEarning,result})
+          }else{
+              var nill='There is no coupons for you...'
+              res.render('coupon&referral',{branches:suggested.length,reffEarning,nill})
+          }
+        })
+      }else{
+        var nill='There is no coupons for you...'
+      res.render('coupon&referral',{branches:suggested.length,reffEarning,nill})
+      }
+  });
+  });
+});
+
+router.post("/checkReferalEarning", function (req, res) {
+  userHelpers.findReferral(req.session.userId).then((response) => {
+    userHelpers.findSuggested(response.referral).then((suggested) => {
+      res.json(suggested)
+    })
+  })
+});
+
+router.post("/checkCuponCode", function (req, res) {
+  userHelpers.findSingleCoupons(req.body).then((response) => {
+    if(response){
+      res.json(response)
+    }else{
+      res.json(false)
+    }
+  })
 });
 
 module.exports = router;

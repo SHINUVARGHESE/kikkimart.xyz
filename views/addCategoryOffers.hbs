@@ -1,0 +1,63 @@
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link href="/stylesheets/cropper.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .preview {
+            overflow: hidden;
+            width: 160px;
+            height: 160px;
+            margin: 10px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <ol style="background-color: #3bd428;" class="breadcrumb breadcrumb1 animated wow slideInLeft"
+                data-wow-delay=".5s">
+                <li><a href="/admin/adminPage"><span class="glyphicon glyphicon-home"
+                            aria-hidden="true"></span>Admin</a></li>
+                <li class="active">Add Category Offers</li>
+            </ol>
+        </div>
+    </div>
+    <!-- //breadcrumbs -->
+    <!-- register -->
+    <div class="register">
+        <div class="container">
+            <h2>Add Category Offers</h2>
+            <div class="login-form-grids">
+                <form id="form" action="/admin/addCatOffersSubmit" enctype="multipart/form-data" method="POST">
+                    <label>Category name</label><br>
+                    <select onchange="findPrice()" id="category" name="catname" class="category">
+                        <option>Select the category name</option>
+                        {{#each categories}}
+                        <option>{{this.cname}}</option>
+                        {{/each}}
+                    </select><br> 
+                    <label>Offer Persentage</label><br>
+                    <input type="text" name="offerPersentage"><br>
+                    <label>Ending time</label><br>
+                    <input type="date" style="width: 100%;" name="endingTime">
+                    <input type="submit" value="Add">
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- //register -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src='/js/validation.js'></script>
+</body> 

@@ -1,0 +1,85 @@
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link href="/stylesheets/cropper.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .preview {
+            overflow: hidden;
+            width: 160px;
+            height: 160px;
+            margin: 10px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <ol style="background-color: #3bd428;" class="breadcrumb breadcrumb1 animated wow slideInLeft"
+                data-wow-delay=".5s">
+                <li><a href="/admin/adminPage"><span class="glyphicon glyphicon-home"
+                            aria-hidden="true"></span>Admin</a></li>
+                <li class="active">Add Coupon</li>
+            </ol>
+        </div>
+    </div>
+    <!-- //breadcrumbs -->
+    <!-- register -->
+    <div class="register">
+        <div class="container">
+            <h2>Add new Coupons</h2>
+            <div class="login-form-grids">
+                <form id="form" action="/admin/addCouponSubmit" enctype="multipart/form-data" method="POST">
+                    <label>Coupon name</label><br>
+                    <input type="text" id="couponName" name="coname"><br>
+                    <label>Coupon Code</label><br>
+                    <input  type="text" id="code" name="code"><br>
+                    <label>Redeem Amount</label><br>
+                    <input type="text" name="redeemAmount"><br>
+                    <label>Ending time</label><br>
+                    <input type="date" style="width: 100%;" name="endingTime">
+                    <input type="submit" value="Add">
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- //register -->
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        function findPrice() {
+            var product = document.getElementById('product').value;
+          $.ajax({
+			url:'/admin/productDetails',
+			data:{
+				proName:product
+			},
+			method:'post',
+			success:(response)=>{
+                if(response){
+               document.getElementById('price').value=response.price;
+               document.getElementById('proId').value=response._id
+				}else{
+                    alert('error')
+                }
+			}
+		})
+        }    
+    </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src='/js/validation.js'></script>
+</body>

@@ -34,12 +34,14 @@ router.get("/", function (req, res, next) {
   });
 });
 
-router.get("/signUp", function (req, res) {
+router.get("/signUp/", function (req, res) {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
   if (req.session.userloggedIn) {
     res.redirect("/users");
-  } else {
-    res.render("signUp");
+  } else { 
+  userHelpers.findCoupons((coupon) => {
+    res.render("signUp", { suggested: req.query.referral,coname:coupon[0].coname});
+  })
   }
 });
 
@@ -77,13 +79,13 @@ router.post("/signUp", function (req, res) {
           let used = "Mobile number is already used.";
           res.render("signUp", { used });
         } else {
-          userHelpers.dosignUp(req.body, (results) => {
-            if (results) {
-              res.redirect("/login");
-            } else {
-              res.redirect("/signUp");
-            }
-          });
+            userHelpers.dosignUp(req.body,(results) => {
+              if (results) {
+                res.redirect("/login");
+              } else {
+                res.redirect("/signUp");
+              }
+            });
         }
       });
     }
@@ -102,7 +104,7 @@ router.post("/logIn", function (req, res) {
         } else if (result.status == "Unblock") {
           let err = "You are blocked by admin";
           res.render("login", { err });
-        } 
+        }
       });
     } else {
       let err = "You are entered wrong input";
@@ -209,10 +211,11 @@ router.post("/checkoutSubmit", (req, res) => {
         res.header(
           "Cache-Control",
           "private, no-cache, no-store, must-revalidate"
-        ); 
+        );
         if (req.session.userloggedIn) {
           let products = await userHelpers.getCartProductList(req.body.userid);
-          let total = await userHelpers.getTotalAmount(req.body.userid);
+          req.session.total = req.body.total;
+          let total = req.session.total
           userHelpers.checkout(req.body, products, total).then((orderId) => {
             if (req.body["payment_method"] === "COD") {
               res.json({ codSuccess: true });
@@ -223,8 +226,8 @@ router.post("/checkoutSubmit", (req, res) => {
                 }
               });
             } else if (req.body["payment_method"] == "paypal") {
-              req.session.total=req.body.total
-              req.session.orderId=orderId
+              req.session.total = req.body.total;
+              req.session.orderId = orderId;
               const create_payment_json = {
                 intent: "sale",
                 payer: {
@@ -315,9 +318,8 @@ router.get("/successPaypal", (req, res) => {
     }
   );
   userHelpers.changePaymentStatus(req.session.orderId).then(() => {
-    
-     res.render("success");
-  })
+    res.render("success");
+  });
 });
 
 router.get("/cancel", (req, res) => res.redirect("/users"));
@@ -490,7 +492,7 @@ router.get("/cancelOrder/", (req, res) => {
           userHelpers.cancelOrder(req.query.id).then((response) => {
             res.redirect("/viewOrders");
           });
-        } else { 
+        } else {
           res.redirect("/");
         }
       } else {
@@ -516,5 +518,16 @@ router.post("/verifyPayment", (req, res) => {
       res.json({ status: false, errMsg: "Error" });
     });
 });
+
+
+router.get("/viewOffers", (req, res) => {
+  userHelpers
+    .findOfferProducts(result => {
+      userHelpers.findCatOfferProducts(response => {
+        res.render('offers',{result,response})
+      });
+    })
+});
+
 
 module.exports = router;

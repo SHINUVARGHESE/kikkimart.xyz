@@ -574,6 +574,10 @@ table {
 	-webkit-animation: shine .75s;
 	animation: shine .75s;
 }
+.img
+{
+background-image:url('white.png');
+}
 @-webkit-keyframes shine {
 	100% {
 		left: 125%;
@@ -1170,7 +1174,7 @@ a.w3_agile_vimeo:hover{
 }
 table.timetable_sub {
 	width:100%;
-	margin: 1px; auto;
+	margin: 1px;
 }
 .timetable_sub thead {
     background: #004284;

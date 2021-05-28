@@ -93,6 +93,13 @@ $("#form").validate({
             required:true,
             numeric:true,
         },
+        offerPrice:{
+            required:true,
+            numeric:true,
+        },
+        endingTime:{
+            required:true,
+        },
         discription:{
             required:true,
         },
@@ -104,7 +111,26 @@ $("#form").validate({
             required:true,
             minlength:4,
             alphanumeric: true
-        }
+        },
+        coname:{
+            required:true,
+            minlength:4,
+            alphanumeric: true
+        },
+        code:{
+            required:true,
+            minlength:6,
+            maxlength:6,
+        },
+        redeemAmount:{
+            required:true,
+            numeric:true,
+        },
+        proname:{
+            required:true,
+        },
+
+
     },
     messages:{ //error message for the required field
         fname: {
@@ -182,6 +208,13 @@ $("#form").validate({
             required:"Please Enter the price of product",
             numeric:"Enther only numbers",
         },
+        offerPrice:{
+            required:"Please Enter the Offer price of product",
+            numeric:"Enther only numbers",
+        },
+        endungTime:{
+            required:"Please Select the offer ending time",
+        },
         discription:{
             required:'Please Enter discription '
         },
@@ -190,7 +223,22 @@ $("#form").validate({
         },
         cname:{
             required:'Please enter the category '
-        }
+        },
+        coname:{
+            required:'Please enter the coupon name '
+        },
+        code:{
+            required:'Please enter the cupon code',
+            minlength:'Please enter minimum 6 digits',
+            maxlength:'Please enter only 6 digits',
+        },
+        redeemAmount:{
+            required:"Please Enter the redeem amount",
+            numeric:"Enther only numbers",
+        },
+        proname:{
+            required:"Please Enter the product name",
+        },
         
     },
     

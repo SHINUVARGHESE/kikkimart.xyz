@@ -86,14 +86,28 @@
 					<input type="password" id="confirm" name="confirm" onkeyup="validatePassword()" placeholder="Confirm Password">
 					<label style="color: rgb(254, 145, 38);" id="validate_confirm"></label>
 					<input type="hidden" name="status" value="Block">
-					<input type="submit" value="Register">
+					<input type="hidden" name="coupon" value="{{coname}}">
+					<input type="hidden" name="referral" id="referral">
+					<input type="hidden" name="suggested" value="{{suggested}}" >
+					<input type="submit" onclick="generate()" value="Register">
 				</form>
-			</div>
+			</div> 
 			<div class="register-home">
 				<a href="/">Home</a>
 			</div>
 		</div>
 	</div>
+<script>
+	function generate() {
+            let num = '1234567890'
+            let referral = ''
+            for (let i = 0; i < 6; i++) {
+                referral += num[Math.floor(Math.random() * 10)];/* random method 0 to 1 */
+            }
+            document.getElementById('referral').value=referral
+    }
+
+</script>	
 <script>
 function validatePassword() {
 	
@@ -177,7 +191,7 @@ var confirm_password = document.getElementById("confirm");
 		</div>
 <!-- //footer -->	
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script??? src="js/bootstrap.min.js"></script???>
 
 <!-- top-header and slider -->
 <!-- here stars scrolling icon -->

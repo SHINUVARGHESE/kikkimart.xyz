@@ -89,15 +89,16 @@
 							</ul>
 						</li>
 
-						<li><a href="">Offers</a></li>
+						<li><a href="/viewOffers">Offers</a></li>
 						<li><a href="/contact">Contact</a></li>
 						{{#if users}}
 						<li><a href="users/profile?id={{users.data._id}}"> Profile </a></li>
 						<li><a href="/viewOrders"> Orders </a></li>
+						<li><a href="/users/coupon&Referral"> Coupons & Referral Earning </a></li>
 					</ul>
 					<div class="product_list_header">
 							<form action="/placeOrder" method="post" class="last">
-								<button class="w3view-cart" type="submit" name="submit" value=""><i
+						 		<button class="w3view-cart" type="submit" name="submit" value=""><i
 								class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
 								<span style="background-color: rgb(29 35 3); color: #fff; font-size: 10px;" class="badge badge-" id="cartCount">{{result2}}</span>
 							</form>
@@ -164,6 +165,9 @@
 					<div class="col-md-3 top_brand_left-1" style="margin-top: 3%;">
 						<div class="hover14 column">
 							<div class="agile_top_brand_left_grid">
+								<div class="agile_top_brand_left_grid_pos">
+												<img src="images/{{this.status}}.png" alt="" class="img-responsive" />
+											</div>
 								<div class="agile_top_brand_left_grid1">
 									<figure>
 										<div class="snipcart-item block">
@@ -178,7 +182,7 @@
 													<i class="fa fa-star blue-star" aria-hidden="true"></i>
 													<i class="fa fa-star gray-star" aria-hidden="true"></i>
 												</div>
-												<h4>{{this.price}}</h4>
+												<h4>{{this.price}}<span>{{this.oldPrice}}</span></h4>
 											</div>
 											<div class="snipcart-details top_brand_home_details">
 													<button  onclick="addToCart('{{this._id}}')" name="submit"

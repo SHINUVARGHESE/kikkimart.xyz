@@ -10,19 +10,27 @@ var fs = require("fs");
 router.get("/", function (req, res, next) {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
   if (req.session.adminloggedIn) {
-    res.redirect('/admin/viewAdmin');
+    res.redirect("/admin/viewAdmin");
   } else {
     res.render("adminLogin", { title: "Admin LoginPage" });
   }
 });
 
 router.get("/viewAdmin", function (req, res, next) {
-  userHelpers.findAllOrders(req.body,(orders) => {
-        res.render("admin",{orders});
-  })
-
+  userHelpers.findAllOrders(req.body, (orders) => {
+    var total = 0;
+    for (let i = 0; i < orders.length; i++) {
+      total += orders[i].totalAmount;
+    }
+    userHelpers.findAllUsers((users) => {
+      res.render("admin", {
+        orders,
+        total: total + ".00 Rs",
+        users: users.length,
+      });
+    });
+  });
 });
-
 
 router.get("/adminLogout", function (req, res, next) {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -36,22 +44,33 @@ router.get("/adminLogout", function (req, res, next) {
 
 router.get("/adminPage", function (req, res) {
   if (req.session.adminloggedIn) {
-    res.redirect('/admin/viewAdmin');
+    res.redirect("/admin/viewAdmin");
   } else {
-   res.redirect('/admin')
+    res.redirect("/admin");
   }
 });
 
 router.post("/adminPage", function (req, res) {
   if (req.session.adminloggedIn) {
-    res.redirect('/admin/viewAdmin');
+    res.redirect("/admin/viewAdmin");
   } else {
     adminHelpers.doLogin(req.body, (result) => {
       if (result) {
         req.session.adminloggedIn = true;
-        userHelpers.findAllOrders(req.body,(orders) => {
-              res.render("admin",{orders});
-        })
+        userHelpers.findAllOrders(req.body, (orders) => {
+          var total = 0;
+          for (let i = 0; i < orders.length; i++) {
+            total += orders[i].totalAmount;
+          }
+          userHelpers.findAllUsers((users) => {
+            res.render("admin", {
+              orders,
+              total: total + ".00 Rs",
+
+              users: users.length,
+            });
+          });
+        });
       } else {
         var err = "Input not matching";
         res.render("adminLogin", { err });
@@ -71,7 +90,7 @@ router.get("/manageUsers", function (req, res) {
       }
     });
   } else {
-    res.redirect('/admin/viewAdmin');
+    res.redirect("/admin/viewAdmin");
   }
 });
 
@@ -171,7 +190,7 @@ router.post("/addProducts", function (req, res) {
 });
 
 router.post("/cropped", function (req, res) {
-   res.json('success')
+  res.json("success");
 });
 
 router.get("/editProducts", function (req, res) {
@@ -213,15 +232,13 @@ router.get("/removeProducts", function (req, res) {
 });
 
 //-------*Order*---------//
-router.get('/manageOrders', function(req, res) {
-  userHelpers.findAllOrders(req.body,async(orders)=>{
-    let canceled = await userHelpers.getAllCanceledOrders(
-    );
-    if(orders){ 
-       res.render('manageOrders',{orders,canceled})
+router.get("/manageOrders", function (req, res) {
+  userHelpers.findAllOrders(req.body, async (orders) => {
+    let canceled = await userHelpers.getAllCanceledOrders();
+    if (orders) {
+      res.render("manageOrders", { orders, canceled });
     }
-  })
-
+  });
 });
 
 router.get("/adminCancelOrder/", (req, res) => {
@@ -230,17 +247,256 @@ router.get("/adminCancelOrder/", (req, res) => {
       res.redirect("/admin/manageOrders");
     });
   } else {
-    res.redirect('/admin');
+    res.redirect("/admin");
   }
-}); 
+});
 
-router.get("/viewOrderProduct/",async (req, res) => {
+router.get("/viewOrderProduct/", async (req, res) => {
   let products = await userHelpers.viewOrderProduct(req.query.id);
   res.render("viewOrderProduct", { products });
 });
 
 router.get("/salesReport", (req, res) => {
-   res.render('salesReport')
+  res.render("salesReport");
+});
+
+router.get("/DetailedReport/", (req, res) => {
+  if (req.query.range == "Weekly") {
+    let currentDate = new Date();
+    var to = currentDate;
+    var date = to.getDate();
+    var month = to.getMonth() + 1;
+    var year = to.getFullYear();
+    var week = date - 7;
+    var from = new Date(year + "-" + month + "-" + week);
+    userHelpers.DetailedReport(from).then((orders) => {
+      var total = 0;
+      for (var i = 0; i < orders.length; i++) {
+        total += orders[i].totalAmount;
+      }
+      userHelpers.findAllUsers((users) => {
+        res.render("admin", {
+          orders,
+          total: total + ".00 Rs",
+          users: users.length,
+        });
+      });
+    });
+  } else if (req.query.range == "Monthly") {
+    let currentDate = new Date();
+    var to = currentDate;
+    var date = to.getDate();
+    var month = to.getMonth();
+    var year = to.getFullYear();
+    var week = date;
+    var from = new Date(year + "-" + month + "-" + week);
+    userHelpers.DetailedReport(from).then((orders) => {
+      var total = 0;
+      for (var i = 0; i < orders.length; i++) {
+        total += orders[i].totalAmount;
+      }
+      userHelpers.findAllUsers((users) => {
+        res.render("admin", {
+          orders,
+          total: total + ".00 Rs",
+          users: users.length,
+        });
+      });
+    });
+  } else if (req.query.range == "Anualy") {
+    let currentDate = new Date();
+    var to = currentDate;
+    var date = to.getDate();
+    var month = to.getMonth() + 1;
+    var year = to.getFullYear() - 1;
+    var week = date;
+    var from = new Date(year + "-" + month + "-" + week);
+    userHelpers.DetailedReport(from).then((orders) => {
+      var total = 0;
+      for (var i = 0; i < orders.length; i++) {
+        total += orders[i].totalAmount;
+      }
+      userHelpers.findAllUsers((users) => {
+        res.render("admin", {
+          orders,
+          total: total + ".00 Rs",
+          users: users.length,
+        });
+      });
+    });
+  }
+});
+router.post("/productDetails", (req, res) => {
+  userHelpers.findProductDetails(req.body.proName, (productDetails) => {
+    res.json(productDetails);
+  });
+});
+
+router.get("/manageOffers", (req, res) => {
+  userHelpers.findOfferProducts((offerPro) => {
+    userHelpers.findCatOfferProducts((catOfferPro) => {
+      res.render("manageOffers", { offerPro, catOfferPro });
+    });
+  });
+});
+
+router.get("/addCategoryOffers", (req, res) => {
+  userHelpers.findCategory(req.body, (categories) => {
+    console.log(categories);
+    res.render("addCategoryOffers", { categories });
+  });
+});
+
+router.post("/addCatOffersSubmit", (req, res) => {
+  userHelpers.addCatOffers(req.body).then((result) => {
+    userHelpers.expireCatOffers(req.body, (expire) => {
+      if (result) {
+        res.redirect("/admin/manageOffers");
+      } else {
+        var err = "Offer not added";
+        res.redirect("/addOffers", { err });
+      }
+    });
+  });
+});
+
+router.get("/editCategoryOffers/", (req, res) => {
+  userHelpers.findCatOffers(req.query, (category) => {
+    if (category) {
+      res.render("editCategoryOffer", { category });
+    } else {
+      res.redirect("/admin/manageOffers");
+    }
+  });
+});
+
+router.post("/editCatOffersSubmit", (req, res) => {
+  userHelpers.updateCatOffers(req.body, (result) => {
+    if (result) {
+      res.redirect("/admin/manageOffers");
+    } else {
+      var err = "Offer not added";
+      res.redirect("/addOffers", { err });
+    }
+  });
+});
+
+router.get("/removeCategoryOffers", (req, res) => {
+  userHelpers.removeCatOffers(req.query).then((result) => {
+    if (result) {
+      res.redirect("/admin/manageOffers");
+    }
+  });
+});
+
+router.get("/addOffers", (req, res) => {
+  userHelpers.findProducts(req.body, (products) => {
+    res.render("addOffers", { products });
+  });
+});
+
+router.post("/addOffersSubmit", (req, res) => {
+  userHelpers.addOffers(req.body).then((result) => {
+    userHelpers.updateProduct(req.body,(response) => {
+      userHelpers.expireOffers(req.body, (expire) => {
+        if (result) {
+          res.redirect("/admin/manageOffers");
+        } else {
+          var err = "Offer not added";
+          res.redirect("/addOffers", { err });
+        }
+      });
+    });
+  });
+});
+
+router.post("/editoffersSubmit", (req, res) => {
+  userHelpers.updateOffers(req.body, (result) => {
+    userHelpers.updateProduct(req.body,(response) => {
+      if (result) {
+        res.redirect("/admin/manageOffers");
+      } else {
+        var err = "Offer not added";
+        res.redirect("/addOffers", { err });
+      }
+    });
+  });
+});
+
+router.get("/editOffers/", (req, res) => {
+  userHelpers.findOffers(req.query, (product) => {
+    if (product) {
+      res.render("editOffers", { product });
+    } else {
+      res.redirect("/admin/manageOffers");
+    }
+  });
+});
+
+router.get("/removeOffers", (req, res) => {
+  userHelpers.removeOffers(req.query).then((result) => {
+  userHelpers.findOffers(req.query, (product) => {
+   userHelpers.removeFromPro(req.query,product, (result) => {
+    if (result) {
+      res.redirect("/admin/manageOffers");
+    }
+  });
+   });
+  });
+});
+
+router.get("/manageCoupons", (req, res) => {
+  userHelpers.findCoupons((coupon) => {
+    if (coupon) {
+      res.render("manageCoupons", { coupon });
+    }
+  });
+});
+
+router.get("/addCoupons", (req, res) => {
+  res.render("addCoupons");
+});
+
+router.post("/addCouponSubmit", (req, res) => {
+  userHelpers.addCoupon(req.body, (result) => {
+    userHelpers.expireCoupon(req.body, (expire) => {
+      if (result) {
+        res.redirect("/admin/manageCoupons");
+      }
+    });
+  });
+});
+
+router.get("/editCoupons/", (req, res) => {
+  userHelpers.findSingleCoupons(req.query, (coupon) => {
+    if (coupon) {
+      res.render("editCoupons", { coupon });
+    } else {
+      res.redirect("/admin/manageCoupons");
+    }
+  });
+});
+
+router.post("/editCouponSubmit", (req, res) => {
+  userHelpers.editCoupon(req.body, (result) => {
+    userHelpers.expireCoupon(req.body, (expire) => {
+      if (result) {
+        res.redirect("/admin/manageCoupons");
+      }
+    });
+  });
+});
+
+router.get("/removeCoupons", (req, res) => {
+  userHelpers.removeCoupon(req.query, (result) => {
+    res.redirect("/admin/manageCoupons");
+  });
+});
+
+router.post("/dateSearch", (req, res) => {
+  userHelpers.dateSearch(req.body, (orders) => {
+    res.render("admin", { orders });
+  });
 });
 
 module.exports = router;

@@ -71,7 +71,7 @@ select{
 }
 .Yorder{
   margin-top: 15px;
-  height: 470px;
+  height: 700px;
   padding: 20px;
   border: 1px solid #dadada;
 }
@@ -93,7 +93,7 @@ tr>td:nth-child(2){
 }
 td{
   border-bottom: 1px solid #dadada;
-  padding: 25px 25px 25px 0;
+  padding: 25px 8px 25px 0;
 }
 
 p{

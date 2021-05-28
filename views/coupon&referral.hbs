@@ -59,8 +59,8 @@
 	<div class="breadcrumbs">
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1">
-				<li><a href="users"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-				<li class="active">Order Details</li>
+				<li><a href="/users"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Coupons & Referral Earning</li>
 			</ol>
 		</div>
 	</div>
@@ -69,64 +69,32 @@
 	<div class="checkout">
 		<div style="padding-bottom: 5%;" class="container">
 			<div class="checkout-right">
-				<table class="timetable_sub">
-					<h3 style="padding-bottom: 5px;">Placed Orders</h3>
-					<thead>
+				<table style="width: 50%;margin-left: 25%;" class="timetable_sub">
+					<h3 style="padding-bottom: 5px;margin-left: 25% ">Referral Earning</h3>
 						<tr>
-							<th>Date</th>	
-							<th>Address</th>
-							<th>Pincode</th>
-							<th>Mobile</th>
-							<th>Amount</th>
-							<th>Payment</th>
-							<th>Status</th>
-							<th>Options</th>
+							<th>You have {{branches}} referral branches, your earning is {{reffEarning}}.00 Rs</th>	
 						</tr>
-					</thead>
-					{{#each orders}}	
-                    <tbody id="customers">
-					<tr class="rem2">
-						<td>{{this.date}}</td>
-						<td>{{this.deliveryDetails.address}}</td>
-						<td>{{this.deliveryDetails.pincode}}</td>
-						<td>{{this.deliveryDetails.mobile}}</td>
-						<td>{{this.totalAmount}}</td>
-						<td>{{this.paymentMethod}}</td>
-						<td>{{this.status}}</td>
-						<td><a href="/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a><a href="/cancelOrder?id={{this._id}}" style="color: black;"><button onclick="return confirm('Are you want to cancel order ?')" class="orderButton">cancel</button></a></td>
-					</tr>
-                    </tbody>
-					{{/each}}
 				</table>
 			</div>
-		</div> 
+		</div>
 		<div class="container">
 			<div class="checkout-right">
-				<table class="timetable_sub">
-					<h3 style="padding-bottom: 5px;">Canceled Orders</h3>
+				<table style="width: 50%;margin-left: 25%" class="timetable_sub">
+					<h3 style="padding-bottom: 5px;margin-left: 25%">Your coupons</h3>
+					<label style="margin-left: 28%; color:#fe9126;">{{nill}}</label>
+					{{#each result}}
 					<thead>
 						<tr>
-							<th>Date</th>	
-							<th>Address</th>
-							<th>Pincode</th>
-							<th>Mobile</th>
-							<th>Amount</th>
-							<th>Payment</th>
-							<th>Status</th>
-							<th>Options</th>
+							<th>Title</th>	
+							<th>Redeem Amount</th>
+							<th>Ending time</th>
 						</tr>
 					</thead>
-					{{#each canceled}}	
-                    <tbody id="customers">
+                    <tbody id="customers">	
 					<tr class="rem2">
-						<td>{{this.date}}</td>
-						<td>{{this.deliveryDetails.address}}</td>
-						<td>{{this.deliveryDetails.pincode}}</td>
-						<td>{{this.deliveryDetails.mobile}}</td>
-						<td>{{this.totalAmount}}</td>
-						<td>{{this.paymentMethod}}</td>
-						<td>{{this.status}}</td>
-						<td><a href="/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a></td>
+						<td>{{this.coname}}</td>
+						<td>{{this.redeemAmount}}</td>
+						<td>{{endingTime}}</td>
 					</tr>
                     </tbody>
 					{{/each}}

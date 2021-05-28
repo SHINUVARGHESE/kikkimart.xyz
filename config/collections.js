@@ -7,6 +7,9 @@ module.exports={
     cart_collections:'cart',
     order_collections:'order',
     address_collections:'address',
+    coupons_collections:'coupons',
+    offers_collections:'offers',
+    categoryOffers_collections:'categoryOffers',
 
 
 }

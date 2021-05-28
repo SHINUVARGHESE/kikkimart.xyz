@@ -399,7 +399,7 @@ li.active a i, .act a i {
 	padding: 5px;
 	text-decoration:none;
 }
-.header-right i.fa.fa-envelope{
+.header-right i.fa.fa-money{
 	color:#6F6F6F;
 }
 i.fa.fa-bell{
@@ -858,7 +858,7 @@ ul.dropdown-menu.drp-mnu li {
     -o-border-radius:49px;
     line-height: 1.7em;
 }
-.market-update-right i.fa.fa-eye {
+.market-update-right i.fa.fa-shopping-cart {
      font-size: 3em;
     color:#FC8213;
     width: 80px;
@@ -871,7 +871,7 @@ ul.dropdown-menu.drp-mnu li {
     -o-border-radius:49px;
     line-height: 1.7em;
 }
-.market-update-right i.fa.fa-envelope-o {
+.market-update-right i.fa.fa-money {
      font-size:3em;
     color:#337AB7;
     width: 80px;
@@ -2234,7 +2234,7 @@ table.table.tab-border {
     margin-right: 12px;
     color: #797878;
 }
-.compose-bottom i.fa.fa-envelope-o{
+.compose-bottom i.fa.fa-money{
 	 font-size: 1.1em;
     margin-right: 12px;
     color: #797878;
@@ -3220,13 +3220,13 @@ li.dropdown.head-dpdn a.dropdown-toggle {
     height: 60px;
     margin-top: 0.7em;
 }
-.market-update-right i.fa.fa-eye{
+.market-update-right i.fa.fa-shopping-cart{
 	font-size: 2em;
     width: 60px;
     height: 60px;
     margin-top: 0.7em;
 }
-.market-update-right i.fa.fa-envelope-o {
+.market-update-right i.fa.fa-money {
 	font-size: 2em;
     width: 60px;
     height: 60px;
@@ -3466,14 +3466,14 @@ li.dropdown.head-dpdn a.dropdown-toggle {
     line-height: 1.9em;
     margin-top: 0px;
 }
-.market-update-right i.fa.fa-eye{
+.market-update-right i.fa.fa-shopping-cart{
 	font-size: 2em;
     width: 60px;
     height: 60px;
     line-height: 1.9em;
      margin-top: 0em;
 }
-.market-update-right i.fa.fa-envelope-o{
+.market-update-right i.fa.fa-money{
 	font-size: 2em;
     width: 60px;
     height: 60px;

@@ -1,0 +1,46 @@
+<head>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<!-- start-smoth-scrolling -->
+</head>
+	
+<body>
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="/admin/adminPage">Admin</a></li>
+				<li class="active">Manage</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<div>
+  <h2 class="table_top md-6">Manage Coupons</h2>            
+  <a href="/admin/addCoupons"><button class="ad">Add Coupons</button></a>&nbsp;
+<table id="customers">
+<thead>	
+  <tr>
+    <th>SI</th>
+    <th>Coupon Name</th>
+    <th>Code</th>
+    <th>Amount</th>
+    <th>Ending time</th>
+    <th style="padding-left: 3%;">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+    {{#each coupon}}
+  <tr>
+  	<td class="counterCell"></td>
+    <td>{{this.coname}}</td>
+    <td>{{this.code}}</td>
+    <td>{{this.redeemAmount}}</td>
+    <td>{{this.endingTime}}</td>
+    <td><a href="/admin/editCoupons?id={{this._id}}"><button>Edit</button></a>&nbsp;<a href="/admin/removeCoupons?id={{this._id}}"><button>Remove</button></a></td>
+  </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>	
+<!-- //main slider-banner --> 
+</body>
