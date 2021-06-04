@@ -103,7 +103,7 @@ $("#form").validate({
         discription:{
             required:true,
         },
-        image:{
+        image2:{
             required:true,
 
         },

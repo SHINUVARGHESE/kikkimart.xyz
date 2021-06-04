@@ -13,7 +13,14 @@
 		});
 	});
 </script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="695971541932-u51s5d6e3smg86kvn9m5j79baaku7eo7.apps.googleusercontent.com">
 <!-- start-smoth-scrolling -->
+<style>
+	a.hover:{
+		color: green;
+	}
+</style>
 </head>
 	
 <body>
@@ -75,19 +82,20 @@
 					<label class="err">{{err}}</label>
 					<input type="text" name="mail" placeholder="Email Address" ><br>
 					<input type="password" name="pass" placeholder="Password">
-					<div class="forgot">
-					</div>
-					<input type="submit" value="Login">
-					<p style="float: left; font-size: 12px;"><a href="/otpPage">Login with OTP</a></p>
+					<input type="submit" value="Login"><br>
+					<p><a style="float: left;padding-left: 25px; text-decoration: underline;" href="/googleSignin"><i class="fa fa-google" aria-hidden="true"></i>&nbsp;Google</a>
+					<a style="float: left;padding-left: 25px; text-decoration: underline;" href="/facebookSignin"><i class="fa fa-facebook" aria-hidden="true"></i>&nbsp;Facebook</a>
+					<a style="float: left;padding-left: 25px; text-decoration: underline;" href="/otpPage"><i class="fa fa-mobile" aria-hidden="true"></i>&nbsp;Login with OTP</a></p>
 				</form>
 			</div>
+			<p><a href="/forgotPassword">Forgot Password</a></p>
 			<h4>For New People</h4>
 			<p><a href="signUp">Register Here</a> (Or) go back to <a href="/">Home<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
 		</div>
 	</div>
 <!-- //login -->
 <!-- //footer --> 
-<div class="footer">
+<div class="footer"> 
 		<div class="container">
 			<div class="w3_footer_grids">
 				<div class="col-md-3 w3_footer_grid">
@@ -154,7 +162,14 @@
 <!-- //footer -->	
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  
 <!-- top-header and slider -->
 <!-- here stars scrolling icon -->
 <script type="text/javascript">

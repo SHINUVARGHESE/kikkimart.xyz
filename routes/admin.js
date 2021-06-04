@@ -23,10 +23,16 @@ router.get("/viewAdmin", function (req, res, next) {
       total += orders[i].totalAmount;
     }
     userHelpers.findAllUsers((users) => {
-      res.render("admin", {
-        orders,
-        total: total + ".00 Rs",
-        users: users.length,
+      userHelpers.sales(req.body).then((result) => {
+        userHelpers.revenue(req.body).then((response) => {
+          res.render("admin", {
+            orders,
+            total: total + ".00 Rs",
+            users: users.length,
+            saleschart: result,
+            revenuechart: response,
+          });
+        });
       });
     });
   });
@@ -63,11 +69,16 @@ router.post("/adminPage", function (req, res) {
             total += orders[i].totalAmount;
           }
           userHelpers.findAllUsers((users) => {
-            res.render("admin", {
-              orders,
-              total: total + ".00 Rs",
-
-              users: users.length,
+            userHelpers.sales(req.body).then((result) => {
+              userHelpers.revenue(req.body).then((response) => {
+                res.render("admin", {
+                  orders,
+                  total: total + ".00 Rs",
+                  users: users.length,
+                  saleschart: result,
+                  revenuechart: response,
+                });
+              });
             });
           });
         });
@@ -209,13 +220,14 @@ router.post("/editProducts/", function (req, res) {
   userHelpers.editProducts(req.body, req.query, (result) => {
     if (result) {
       if (req.body.image1) {
+        console.log(req.body.image1);
         const path = "./public/product_images/" + req.query.id + ".jpg";
         const imgdata = req.body.image1;
         const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, "");
         fs.writeFileSync(path, base64Data, { encoding: "base64" });
         res.redirect("/admin/manageProducts");
-      } else {
-        let image = req.files.image2;
+      } else{ 
+        let image = req.files.img;
         image.mv("./public/product_images/" + req.query.id + ".jpg");
         res.redirect("/admin/manageProducts");
       }
@@ -275,10 +287,16 @@ router.get("/DetailedReport/", (req, res) => {
         total += orders[i].totalAmount;
       }
       userHelpers.findAllUsers((users) => {
-        res.render("admin", {
-          orders,
-          total: total + ".00 Rs",
-          users: users.length,
+        userHelpers.sales(req.body).then((result) => {
+          userHelpers.revenue(req.body).then((response) => {
+            res.render("admin", {
+              orders,
+              total: total + ".00 Rs",
+              users: users.length,
+              saleschart: result,
+              revenuechart: response,
+            });
+          });
         });
       });
     });
@@ -296,10 +314,16 @@ router.get("/DetailedReport/", (req, res) => {
         total += orders[i].totalAmount;
       }
       userHelpers.findAllUsers((users) => {
-        res.render("admin", {
-          orders,
-          total: total + ".00 Rs",
-          users: users.length,
+        userHelpers.sales(req.body).then((result) => {
+          userHelpers.revenue(req.body).then((response) => {
+            res.render("admin", {
+              orders,
+              total: total + ".00 Rs",
+              users: users.length,
+              saleschart: result,
+              revenuechart: response,
+            });
+          });
         });
       });
     });
@@ -317,10 +341,16 @@ router.get("/DetailedReport/", (req, res) => {
         total += orders[i].totalAmount;
       }
       userHelpers.findAllUsers((users) => {
-        res.render("admin", {
-          orders,
-          total: total + ".00 Rs",
-          users: users.length,
+        userHelpers.sales(req.body).then((result) => {
+          userHelpers.revenue(req.body).then((response) => {
+            res.render("admin", {
+              orders,
+              total: total + ".00 Rs",
+              users: users.length,
+              saleschart: result,
+              revenuechart: response,
+            });
+          });
         });
       });
     });
@@ -397,7 +427,7 @@ router.get("/addOffers", (req, res) => {
 
 router.post("/addOffersSubmit", (req, res) => {
   userHelpers.addOffers(req.body).then((result) => {
-    userHelpers.updateProduct(req.body,(response) => {
+    userHelpers.updateProduct(req.body, (response) => {
       userHelpers.expireOffers(req.body, (expire) => {
         if (result) {
           res.redirect("/admin/manageOffers");
@@ -412,7 +442,7 @@ router.post("/addOffersSubmit", (req, res) => {
 
 router.post("/editoffersSubmit", (req, res) => {
   userHelpers.updateOffers(req.body, (result) => {
-    userHelpers.updateProduct(req.body,(response) => {
+    userHelpers.updateProduct(req.body, (response) => {
       if (result) {
         res.redirect("/admin/manageOffers");
       } else {
@@ -435,13 +465,13 @@ router.get("/editOffers/", (req, res) => {
 
 router.get("/removeOffers", (req, res) => {
   userHelpers.removeOffers(req.query).then((result) => {
-  userHelpers.findOffers(req.query, (product) => {
-   userHelpers.removeFromPro(req.query,product, (result) => {
-    if (result) {
-      res.redirect("/admin/manageOffers");
-    }
-  });
-   });
+    userHelpers.findOffers(req.query, (product) => {
+      userHelpers.removeFromPro(req.query, product, (result) => {
+        if (result) {
+          res.redirect("/admin/manageOffers");
+        }
+      });
+    });
   });
 });
 
@@ -495,8 +525,39 @@ router.get("/removeCoupons", (req, res) => {
 
 router.post("/dateSearch", (req, res) => {
   userHelpers.dateSearch(req.body, (orders) => {
-    res.render("admin", { orders });
+      var total = 0;
+      for (let i = 0; i < orders.length; i++) {
+        total += orders[i].totalAmount;
+      }
+      userHelpers.findAllUsers((users) => {
+        userHelpers.sales(req.body).then((result) => {
+          userHelpers.revenue(req.body).then((response) => {
+            res.render("admin", {
+              orders,
+              total: total + ".00 Rs",
+              users: users.length,
+              saleschart: result,
+              revenuechart: response,
+            });
+          });
+        });
+      });
   });
+});
+
+
+router.get("/adminChangeStatus/", (req, res) => {
+
+  res.render("adminChangeStatus",{orderId:req.query.id});
+
+});
+
+router.post("/changeStatus/", (req, res) => {
+  userHelpers.changeStatus(req.body,(response) => {
+  
+    res.redirect('/admin/manageOrders')
+  
+  })
 });
 
 module.exports = router;

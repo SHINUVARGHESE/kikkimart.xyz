@@ -22,6 +22,28 @@ module.exports = {
         });
     });
   },
+
+  fbUserSignUp: (userData,referralCode, callback) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.user_collections)
+        .insertOne({fname:userData.first_name,lname:userData.last_name,mail:userData.email,status:"Block",referral:referralCode})
+        .then((data) => {
+          callback(data.ops[0]);
+        });
+    });
+  },
+
+  doUserSignUp: (userData,referralCode, callback) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.user_collections)
+        .insertOne({fname:userData.given_name,lname:userData.family_name,mail:userData.email,status:"Block",referral:referralCode})
+        .then((data) => {
+          callback(data.ops[0]);
+        });
+    });
+  },
   doLogin: async (userData) => {
     return new Promise(async (resolve, reject) => {
       let loginStatus = false;
@@ -45,6 +67,7 @@ module.exports = {
       }
     });
   },
+
   findUser: async (mobile, callback) => {
     var data = await db
       .get()
@@ -74,6 +97,13 @@ module.exports = {
       .get()
       .collection(collection.user_collections)
       .findOne({ mail: dummy.mail });
+    callback(data);
+  },
+  checkNewStatus: async (dummy, callback) => {
+    var data = await db 
+      .get()
+      .collection(collection.user_collections)
+      .findOne({ mail: dummy.email });
     callback(data);
   },
   checkUserStatus: async (userId, callback) => {
@@ -371,6 +401,18 @@ module.exports = {
         });
     });
   },
+
+  findUserMail: (dummy, callback) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.user_collections)
+        .findOne({ mail: dummy.email })
+        .then((data) => {
+          callback(data);
+        });
+    });
+  },
+
   findMobile: (dummy, callback) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -590,7 +632,11 @@ module.exports = {
             },
           ])
           .toArray();
-        resolve(total[0].total);
+          if(total.length!=0){
+              resolve(total[0].total);
+          }else{
+            resolve(0)
+          }
       } else {
         resolve(false);
       }
@@ -641,7 +687,7 @@ module.exports = {
       let orders = await db
         .get()
         .collection(collection.order_collections)
-        .find({ userId: objectId(userId), status: "placed" })
+        .find({ userId: objectId(userId), status:{$in: ['placed', 'Shipped','Delivered']}})
         .toArray();
       resolve(orders);
     });
@@ -774,8 +820,8 @@ module.exports = {
     var data = await db
       .get()
       .collection(collection.order_collections)
-      .find({ status: "placed" })
-      .toArray();
+      .find({status:{$in: ['placed', 'Shipped','Delivered']}})
+      .toArray(); 
     callback(data);
   },
 
@@ -1104,31 +1150,112 @@ module.exports = {
     });
   },
 
-  dashboard: (callback) => {
-    var chart = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let year = new Date();
-    db.get()
-      .collection(collection.order_collections)
-      .aggregate([
-        {
-          $match: { saleDate: { $gte: new Date(`${year.getFullYear()}`) } },
-        },
-        {
-          $group: {
-            _id: { $month: "$saleDate" },
-            sales: { $sum: 1 },
-            total: { $sum: "$amount" },
+  sales:(dummy) => {
+    return new Promise(async (resolve, reject) => {
+      var chart = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      let year = new Date();
+      var result = await db
+        .get()
+        .collection(collection.order_collections)
+        .aggregate([
+          {
+            $match: {
+              status: "placed",
+              date: { $gte: new Date(`${year.getFullYear()}`) },
+            },
           },
-        },
-      ])
-      .toArray()
-      .then((result) => {
+          {
+            $group: {
+              _id: { $month: "$date" },
+              sales: { $sum: 1 },
+              total: { $sum: "$totalAmount" },
+            },
+          },
+        ])
+        .toArray();
+      for (let i = 0; i < result.length; i++) {
+        chart[result[i]._id - 1] = result[i].total;
+      }
+      resolve(chart);
+    });
+  },
+
+  revenue:(dummy) => {
+    return new Promise(async (resolve, reject) => {
+      var chart = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      let year = new Date();
+      var result = await db
+        .get()
+        .collection(collection.order_collections)
+        .aggregate([
+          {
+            $match: {
+              status: "placed",
+              date: { $gte: new Date(`${year.getFullYear()}`) },
+            },
+          },
+          {
+            $group: {
+              _id: { $month: "$date" },
+              sales: { $sum: 1 },
+              total: { $sum: "$totalAmount" },
+            },
+          },
+        ])
+        .toArray();
         console.log(result);
         for (let i = 0; i < result.length; i++) {
           chart[result[i]._id - 1] = result[i].total;
         }
-        console.log(chart);
-        callback(chart);
-      });
+      console.log(chart);
+      resolve(chart);
+    });
   },
+
+  searchProducts: (body) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.product_collections)
+        .find({pname:body.searchValue})
+        .toArray()
+        .then((data) => {
+          resolve(data);
+        });
+    });
+  },
+
+  changePassword: (body,email) => {
+    return new Promise(async(resolve, reject) => {
+      body.pass = await bcrypt.hash(body.pass, 10);
+      db.get()
+        .collection(collection.user_collections)
+        .updateOne(
+          {mail:email},
+          {
+            $set: {
+              pass: body.pass,
+            },
+          }
+        )
+        .then((data) => {
+          resolve(data);
+        });
+    });
+  },
+
+  changeStatus: async (body, callback) => {
+    var response = await db
+      .get()
+      .collection(collection.order_collections)
+      .updateOne(
+        { _id: objectId(body.id) },
+        {
+          $set: {
+            status: body.OrderStatus,
+          },
+        }
+      );
+    callback(response);
+  },
+
 };

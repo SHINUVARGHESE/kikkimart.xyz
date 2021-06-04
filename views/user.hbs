@@ -13,6 +13,9 @@
 			});
 		});
 	</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="695971541932-u51s5d6e3smg86kvn9m5j79baaku7eo7.apps.googleusercontent.com">
+
 	<!-- start-smoth-scrolling -->
 </head>
 
@@ -41,8 +44,8 @@
 				<h1><a href="/">Kikki Mart</a></h1>
 			</div>
 			<div class="w3l_search">
-				<form action="#" method="post">
-					<input type="search" name="Search" placeholder="Search for a Product..." required="">
+				<form action="/productSearch" method="POST">
+					<input type="search" name="searchValue" placeholder="Search for a Product..." required="">
 					<button type="submit" class="btn btn-default search" aria-label="Left Align">
 						<i class="fa fa-search" aria-hidden="true"> </i>
 					</button>
@@ -79,7 +82,7 @@
 								<div class="row">
 									<div class="multi-gd-img">
 										<ul class="multi-column-dropdown">
-											<li><a href="groceries">{{this.cname}}</a></li>
+											<li>{{this.cname}}</li>
 										</ul>
 									</div>
 
@@ -126,9 +129,7 @@
 			</nav>
 		</div>
 	</div>
-
 	<!-- //navigation -->
-
 	<!-- //top-header and slider -->
 	<!-- Carousel
     ================================================== -->
@@ -182,7 +183,7 @@
 													<i class="fa fa-star blue-star" aria-hidden="true"></i>
 													<i class="fa fa-star gray-star" aria-hidden="true"></i>
 												</div>
-												<h4>{{this.price}}<span>{{this.oldPrice}}</span></h4>
+			 									<h4>{{this.price}}<span>{{this.oldPrice}}</span></h4>
 											</div>
 											<div class="snipcart-details top_brand_home_details">
 													<button  onclick="addToCart('{{this._id}}')" name="submit"

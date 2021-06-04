@@ -54,7 +54,7 @@
 					<textarea class="discription" name="discription">{{this.discription}}</textarea><br>
 					<label>Product Image</label><br>
 					<img style="width: 30%;" src="/product_images/{{this._id}}.jpg" id="imageView">
-                    <input style="width: 98px;" name="image2"  class="image" id="img" onchange="viewImage(event)" type="file" >
+                    <input style="width: 98px;" name="img"  class="image" accept="image/png, image/gif, image/jpeg" id="img" onchange="viewImage(event)" type="file" >
 					{{/each}}
 					<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
                             aria-hidden="true">

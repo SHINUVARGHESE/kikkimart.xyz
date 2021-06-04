@@ -40,14 +40,11 @@
 			<div class="w3ls_logo_products_left">
 				<h1><a href="/">Kikki Mart</a></h1>
 			</div>
-			<div class="w3l_search">
-				<form action="#" method="post">
-					<input type="search" name="Search" placeholder="Search for a Product..." required="">
-					<button type="submit" class="btn btn-default search" aria-label="Left Align">
-						<i class="fa fa-search" aria-hidden="true"> </i>
-					</button>
-					<div class="clearfix"></div>
-				</form>
+		    <div class="w3ls_logo_products_left1">
+				<ul class="phone_email">
+					<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i> East Kallada, Kollam, Kerala</li>
+					
+				</ul>
 			</div>
 
 			<div class="clearfix"> </div>
@@ -67,9 +64,9 @@
 <!-- //breadcrumbs -->
 <!-- checkout -->
 	<div class="checkout">
-		<div style="padding-bottom: 5%;" class="container">
+		<div style="padding-bottom: 5%; margin-left: 0.5%;" class="container">
 			<div class="checkout-right">
-				<table class="timetable_sub">
+				<table style="width: 115%;" class="timetable_sub">
 					<h3 style="padding-bottom: 5px;">Placed Orders</h3>
 					<thead>
 						<tr>
@@ -91,9 +88,11 @@
 						<td>{{this.deliveryDetails.pincode}}</td>
 						<td>{{this.deliveryDetails.mobile}}</td>
 						<td>{{this.totalAmount}}</td>
-						<td>{{this.paymentMethod}}</td>
+						<td>{{this.paymentMethod}}</td> 
 						<td>{{this.status}}</td>
-						<td><a href="/admin/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a><a href="/admin/adminCancelOrder?id={{this._id}}" style="color: black;"><button onclick="return confirm('Are you want to cancel order ?')" class="orderButton">cancel</button></a></td>
+						<td><a href="/admin/adminChangeStatus?id={{this._id}}" style="color: black;"><button class="orderButton">Change Status</button>&nbsp;</a>
+							<a href="/admin/viewOrderProduct?id={{this._id}}" style="color: black;"><button class="orderButton">Product</button>&nbsp;</a>
+						<a href="/admin/adminCancelOrder?id={{this._id}}" style="color: black;"><button onclick="return confirm('Are you want to cancel order ?')" class="orderButton">cancel</button></a></td>
 					</tr>
                     </tbody>
 					{{/each}}

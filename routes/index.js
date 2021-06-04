@@ -4,9 +4,17 @@ const session = require("express-session");
 const { restart } = require("nodemon");
 var router = express.Router();
 var userHelpers = require("../helpers/userHelpers");
+var nodemailer = require("nodemailer");
 require("dotenv").config();
 const fast2sms = require("fast-two-sms");
 const paypal = require("paypal-rest-sdk");
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+require("./passport-setup");
+
+const facebookStrategy = require('passport-facebook').Strategy
+
 paypal.configure({
   mode: "sandbox", //sandbox or live
   client_id:
@@ -14,6 +22,33 @@ paypal.configure({
   client_secret:
     "EF3dJwS-gsFQjqgxWFWXd8TA1hQ1XS4m80JNmFmUs5hDUjEPhCmKIcsVkKtPmFBIcnsy3Bdk8IrU_d1_",
 });
+
+router.use(passport.initialize());
+router.use(passport.session());
+
+passport.use(new facebookStrategy({
+
+  // pull in our app id and secret from our auth.js file
+  clientID        : "482428659535981",
+  clientSecret    : "869c51b2fd77002f16ad2faeb9b3c1aa",
+  callbackURL     : "http://localhost:3000/facebook/callback",
+  profileFields   :['id','displayName','name','gender','picture.type(large)','email']
+
+},// facebook will send back the token and profile
+function(token, refreshToken, profile, done) {
+   userprofile=profile
+  return done(null,profile)
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+  return done(null,id)
+});
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -38,10 +73,13 @@ router.get("/signUp/", function (req, res) {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
   if (req.session.userloggedIn) {
     res.redirect("/users");
-  } else { 
-  userHelpers.findCoupons((coupon) => {
-    res.render("signUp", { suggested: req.query.referral,coname:coupon[0].coname});
-  })
+  } else {
+    userHelpers.findCoupons((coupon) => {
+      res.render("signUp", {
+        suggested: req.query.referral,
+        coname: coupon[0].coname,
+      });
+    });
   }
 });
 
@@ -79,13 +117,13 @@ router.post("/signUp", function (req, res) {
           let used = "Mobile number is already used.";
           res.render("signUp", { used });
         } else {
-            userHelpers.dosignUp(req.body,(results) => {
-              if (results) {
-                res.redirect("/login");
-              } else {
-                res.redirect("/signUp");
-              }
-            });
+          userHelpers.dosignUp(req.body, (results) => {
+            if (results) {
+              res.redirect("/login");
+            } else {
+              res.redirect("/signUp");
+            }
+          });
         }
       });
     }
@@ -109,6 +147,92 @@ router.post("/logIn", function (req, res) {
     } else {
       let err = "You are entered wrong input";
       res.render("login", { err });
+    }
+  });
+});
+
+router.get(
+  "/googleSignin",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    userHelpers.findUserMail(req.user, (result) => {
+      if (result) {
+        userHelpers.checkNewStatus(req.user, (response) => {
+          if (result.status == "Block") {
+            req.session.userloggedIn = true;
+            req.session.user = response;
+            req.session.userId = response._id;
+            res.redirect("/users");
+          } else if (result.status == "Unblock") {
+            let err = "You are blocked by admin";
+            res.render("login", { err });
+          }
+        });
+      } else {
+        let num = '1234567890'
+        let referral = ''
+        for (let i = 0; i < 6; i++) {
+            referral += num[Math.floor(Math.random() * 10)];/* random method 0 to 1 */
+        }
+        userHelpers.doUserSignUp(req.user,referral, (results) => {
+          if (results) {
+            req.session.userloggedIn = true;
+            req.session.user = results;
+            req.session.userId = results._id;
+            res.redirect("/users");
+          } else {
+            res.redirect("/login");
+          }
+        });
+      }
+    });
+  }
+);
+
+router.get('/facebookSignin', passport.authenticate('facebook', { scope : 'email,user_photos' }));
+
+router.get('/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/facebookLogin',
+            failureRedirect : '/login'
+        })
+);
+router.get("/facebookLogin", (req, res) => {
+  console.log(req.user);
+  userHelpers.findUserMail(req.user._json, (result) => {
+    if (result) {
+      userHelpers.checkNewStatus(req.user._json, (response) => {
+        if (result.status == "Block") {
+          req.session.userloggedIn = true;
+          req.session.user = response;
+          req.session.userId = response._id;
+          res.redirect("/users");
+        } else if (result.status == "Unblock") {
+          let err = "You are blocked by admin";
+          res.render("login", { err });
+        }
+      });
+    } else {
+      let num = '1234567890'
+      let referral = ''
+      for (let i = 0; i < 6; i++) {
+          referral += num[Math.floor(Math.random() * 10)];/* random method 0 to 1 */
+      }
+      userHelpers.fbUserSignUp(req.user._json,referral, (results) => {
+        if (results) {
+          req.session.userloggedIn = true;
+          req.session.user = results;
+          req.session.userId = results._id;
+          res.redirect("/users");
+        } else {
+          res.redirect("/login");
+        }
+      });
     }
   });
 });
@@ -214,8 +338,9 @@ router.post("/checkoutSubmit", (req, res) => {
         );
         if (req.session.userloggedIn) {
           let products = await userHelpers.getCartProductList(req.body.userid);
-          req.session.total = req.body.total;
-          let total = req.session.total
+          // let total = await userHelpers.getTotalAmount(req.body.userid);
+          let total = 0;
+          total += parseInt(req.body.total);
           userHelpers.checkout(req.body, products, total).then((orderId) => {
             if (req.body["payment_method"] === "COD") {
               res.json({ codSuccess: true });
@@ -327,7 +452,7 @@ router.get("/cancel", (req, res) => res.redirect("/users"));
 router.post("/placeOrder", async (req, res) => {
   userHelpers.checkUserStatus(req.session.userId, async (result) => {
     if (result) {
-      if (result.status == "Block") {
+      if (result.status == "Block") { 
         if (req.session.userloggedIn) {
           let products = await userHelpers.cartProducts(req.session.user._id);
           let total = 0;
@@ -519,15 +644,71 @@ router.post("/verifyPayment", (req, res) => {
     });
 });
 
-
 router.get("/viewOffers", (req, res) => {
-  userHelpers
-    .findOfferProducts(result => {
-      userHelpers.findCatOfferProducts(response => {
-        res.render('offers',{result,response})
-      });
-    })
+  userHelpers.findOfferProducts((result) => {
+    userHelpers.findCatOfferProducts((response) => {
+      res.render("offers", { result, response });
+    });
+  });
 });
 
+router.post("/productSearch", (req, res) => {
+  console.log(req.body.searchValue);
+  userHelpers.searchProducts(req.body).then((results) => {
+    res.render("single", { results });
+  });
+});
+
+router.get("/forgotPassword", (req, res) => {
+  res.render("forgotPassword");
+});
+
+router.post("/forgotPasswordSubmit", (req, res) => {
+  userHelpers.findMail(req.body, (result) => {
+    if (result) {
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        port: 3000,
+        secure: false, // use SSL
+        auth: {
+          user: 'shinuvarghese997@gmail.com',
+          pass: '997vargheseshinu'
+        }
+      });
+      
+      var mailOptions = {
+        from: 'shinuvarghese997@gmail.com',
+        to: req.body.mail,
+        subject: 'Kikki Mart Change your password',
+        text: 'http://localhost:3000/changePassword?mail='+req.body.mail+''
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+      var err = "Please check your email to change password";
+      res.render("login", { err });
+    } else {
+      var err = "This mailId not registered";
+      res.render("forgotPassword", { err });
+    }
+  });
+});
+
+router.get("/changePassword/", (req, res) => {
+  res.render("changePassword",{mail:req.query.mail});
+});
+
+router.post("/changePasswordSubmit/", (req, res) => {
+  var mail = req.query.mail
+  userHelpers.changePassword(req.body,mail).then((results) => {
+    var err = "Password changed successfully";
+    res.render("login", { err });
+  });
+});
 
 module.exports = router;

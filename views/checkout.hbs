@@ -62,40 +62,40 @@
           </label>
           <label>
             <span class="fname">First Name <span>*</span></span>
-            <input type="text" id="fname" name="fname" value="">
+            <input type="text" id="fname" required minlength="3" name="fname" value="">
           </label>
           <label>
             <span class="lname">Last Name <span>*</span></span>
-            <input type="text" id="lname" name="lname" value="">
+            <input type="text" id="lname" required minlength="3" name="lname" value="">
           </label>
           <label>
             <span>Country <span>*</span></span>
-            <input type="text" id="country" name="country" value="">
+            <input type="text" id="country" required minlength="3" name="country" value="">
           </label>
           </label>
           <label>
             <span>HouseName/No <span>*</span></span>
-            <input type="text" id="housename" name="address" value="">
+            <input type="text" id="housename" required minlength="3" name="address" value="">
           </label>
           <label>
             <span>Town / City <span>*</span></span>
-            <input type="text" id="city" name="city" value="">
+            <input type="text" id="city" required minlength="3" name="city" value="">
           </label>
           <label>
             <span>State / County <span>*</span></span>
-            <input type="text" id="state" name="state" value="">
+            <input type="text" id="state" required minlength="3" name="state" value="">
           </label>
           <label>
             <span>Postcode / ZIP <span>*</span></span>
-            <input type="text" id="pincode" name="pincode" value="">
+            <input type="text" id="pincode" required minlength="6" name="pincode" value="">
           </label>
           <label>
             <span>Mobile <span>*</span></span>
-            <input type="tel" id="mobile" name="mobile" value="">
+            <input type="tel" id="mobile" required minlength="10" maxlength="10" name="mobile" value="">
           </label>
           <label>
             <span>Email Address <span>*</span></span>
-            <input type="email" id="mail" name="mail" value="">
+            <input type="email" required pattern=".+@gmail.com" size="30" id="mail" name="mail" value="">
           </label>
         </div>
         <div class="Yorder">
@@ -104,24 +104,27 @@
               <th colspan="2">Your order</th>
             </tr>
             <tr>
-              <td>Subtotal</td>
-              <td id="total">{{total}}.00</td>
+              <td>Subtotal : </td>
+              <td style="float: left; padding-left: 8%;">Rs.</td>
+              <td style="float: left;margin-right: 0; padding-right: 0;" id="total">{{total}}</td>
+              <td id="zero" style="float: left;">.00</td>
               <input type="hidden" id="amt" name="total" value="{{total}}">
             </tr>
             <tr>
-              <td style="margin-right: 4px;">Apply</td>
-                <td >Referral</td>
-                <td ><input type="radio" onchange="referral()" id="method" value="Referral" name="redeem"></td>
-                <td style="color: #52ad9c;" >Coupon</td>
-               <td ><input type="radio" onchange="coupon()" value="coupon" name="redeem"></td><br>
-              </tr>
-              <tr>
+              <td style="margin-right: 4px;">Apply : </td>
+              <td style="float: left;padding-left: 8%;">Referral</td>
+              <td style="float: left;"><input type="radio" onchange="referral()" id="method" value="Referral"
+                  name="redeem"></td>
+              <td style="color: #52ad9c;float: left;">Coupon</td>
+              <td style="float: left;"><input type="radio" onchange="coupon()" value="coupon" name="redeem"></td><br>
+            </tr>
+            <tr>
               <td id="label"></td>
               <td>
                 <div style="float: right; width: 150px;" id="text"></div>
               </td>
             </tr>
-            
+
           </table><br>
           <label style="color: #de991c; font-size: 20px; padding-left: 17%;" id="err"></label>
           <div>
@@ -138,7 +141,7 @@
                 width="50">
             </span>
           </div>
-          <button name="submit" value="submit">Checkout</button>
+          <button name="submit" onclick="submitForm()" value="submit">Checkout</button>
         </div><!-- Yorder -->
       </div>
     </form>
@@ -153,6 +156,10 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
   <script>
     function referral() {
+      var amount = document.getElementById('total').innerHTML
+      var coupon = document.getElementById('code').value
+      var total = document.getElementById('amt').value
+      if (amount == total) {
         $.ajax({
           url: '/users/checkReferalEarning',
           method: 'post',
@@ -161,325 +168,162 @@
             if (response.length == 0) {
               document.getElementById('err').innerHTML = "There is no referal earning"
             } else {
-              var amount = document.getElementById('total').innerHTML
-              reffEarning = response.length * 100
+              var reffEarning = response.length * 100
+              var ref = reffEarning + 100
               if (reffEarning > amount) {
-                var discount = reffEarning - amount
-                alert(discount
-                )
-                document.getElementById('total').innerHTML = "0.00"
+                document.getElementById('err').innerHTML = "Your referal earning is " + reffEarning + " if you want redeem, purchase above " + ref
               } else {
                 document.getElementById('total').innerHTML = amount - reffEarning + ".00"
-                document.getElementById('amt').value = amount - reffEarning + ".00"
+                document.getElementById('amt').value = amount - reffEarning
+                document.getElementById('zero').innerHTML = " "
               }
             }
           }
         })
+      } else {
+        document.getElementById('err').innerHTML = "The redeem already applied"
+      }
     }
+  </script>   
+  <script> 
     function coupon() {
       document.getElementById('label').innerHTML = "Enter coupon code"
       document.getElementById('text').innerHTML = '<input id="code" type="text"><input type="button" onclick="discount()" value="Apply">'
     }
+  </script>
+  <script>  
     function discount() {
       var coupon = document.getElementById('code').value
-      $.ajax({
-        url: '/users/checkCuponCode',
-        method: 'post',
-        data:{couponCode:coupon},
-        success: (response) => {
-          if(response){
-            var amount = document.getElementById('total').innerHTML
-            var discount = response.redeemAmount
-            document.getElementById('total').innerHTML = amount - discount + ".00"
-             document.getElementById('amt').value = amount - discount + ".00"
-          }else{
+      var total = document.getElementById('amt').value
+      if (total >= 100) {
+        $.ajax({
+          url: '/users/checkCuponCode',
+          method: 'post',
+          data: { couponCode: coupon },
+          success: (response) => {
+            if (response) {
+              var amount = document.getElementById('total').innerHTML
+              var total = document.getElementById('amt').value
+              var discount = response.redeemAmount
+              var dis = discount + 100
+              if (amount == total) {
+                if (discount >= total) {
+                  document.getElementById('total').innerHTML = amount - discount + ".00"
+                  document.getElementById('amt').value = amount - discount
+                  document.getElementById('zero').innerHTML = " "
+                } else {
+                  document.getElementById('err').innerHTML = "Your coupon amount is" + discount + "if you want to apply coupon you want to purchase above" + dis
+                }
+              } else {
+                document.getElementById('err').innerHTML = "Only one coupon on one purchase"
+              }
+            } else {
               document.getElementById('err').innerHTML = "Invalid Coupon"
-          }
+            }
 
+          }
+        })
+
+      } else {
+        document.getElementById('err').innerHTML = "There coupon valid only for above 100.rs purchase"
+      }
+    }
+  </script>
+  <script>
+    function submitForm() {
+      $("#form").submit((e) => {
+        e.preventDefault()
+        $.ajax({
+          url: '/checkoutSubmit',
+          method: 'post',
+          data: $('#form').serialize(),
+          success: (response) => {
+            if (response.codSuccess) {
+              location.href = '/success'
+            } else if (response.status) {
+              razorpayPayment(response)
+            } else {
+              window.location.href = response.paypalConnection
+            }
+          }
+        })
+      })
+    }
+  </script>
+  <script>
+
+    function razorpayPayment(order) {
+      var options = {
+        "key": "rzp_test_B1Edfkjazm7n03", // Enter the Key ID generated from the Dashboard
+        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "KIKKI MART",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+          verifyPayment(response, order)
+        },
+        "prefill": {
+          "name": "Gaurav Kumar",
+          "email": "gaurav.kumar@example.com",
+          "contact": "9999999999"
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+    }
+
+    function verifyPayment(payment, order) {
+      $.ajax({
+        url: '/verifyPayment',
+        data: {
+          payment,
+          order
+        },
+        method: 'POST',
+        success: (response) => {
+          if (response.status) {
+            location.href = '/success'
+          } else {
+            alert("Payment Failed")
+          }
         }
       })
-    } 
-  </script>
-  <script>
-    jQuery.validator.addMethod("noSpace", function (value, element) {
-      return value == '' || value.trim().length != 0;
-    }, "No space please and don't leave it empty");
-      jQuery.validator.addMethod("customEmail", function (value, element) {
-        return this.optional(element) || /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value);
-      }, "Please enter valid email address!");
-      $.validator.addMethod("numeric", function (value, element) {
-        return this.optional(element) || value == value.match(/^[0-9]+$/);
-      }, "Numbers Only");
-      $.validator.addMethod("alphanumeric", function (value, element) {
-        return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
-      }, "Letters only");
-
-      var $registrationForm = $("#form");
-
-      if ($registrationForm.length) {
-        $registrationForm.validate({
-          rules: {
-            fname: {
-              required: true,
-              minlength: 4,
-              alphanumeric: true
-            },
-            lname: {
-              required: true,
-              minlength: 4,
-              alphanumeric: true
-            },
-            country: {
-              minlength: 4,
-              required: true,
-              alphanumeric: true
-            },
-            city: {
-              minlength: 4,
-              required: true,
-              alphanumeric: true
-            },
-            state: {
-              minlength: 4,
-              required: true,
-              alphanumeric: true
-            },
-            pincode: {
-              minlength: 4,
-              required: true,
-              numeric: true,
-            },
-            address: {
-              required: true,
-              minlength: 4,
-            },
-            mail: {
-              required: true,
-              customEmail: true
-            },
-            mobile: {
-              required: true,
-              minlength: 10,
-              maxlength: 10,
-              numeric: true,
-              noSpace: true
-            },
-            payment_method: {
-              required: true,
-            },
-            pass: {
-              required: true,
-              minlength: 4,
-              maxlength: 10
-            },
-            confirm: {
-              required: true
-            },
-            content: {
-              required: true
-            },
-            pname: {
-              required: true,
-              minlength: 3,
-            },
-            category: {
-              required: true,
-            },
-            price: {
-              required: true,
-              numeric: true,
-            },
-            discription: {
-              required: true,
-            },
-            image: {
-              required: true,
-
-            },
-            cname: {
-              required: true,
-              minlength: 4,
-              alphanumeric: true
-            }
-          },
-          messages: { //error message for the required field
-            fname: {
-              required: 'Please Enter Your First Name',
-              alphanumeric: 'Enter Only Charactors',
-              minlength: 'Enter minimum 4 charractors',
-            },
-            lname: {
-              required: 'Please Enter Your Last Name',
-              alphanumeric: 'Enter Only Charactors',
-              minlength: 'Enter minimum 4 charractors',
-            },
-            country: {
-              required: 'Please Enter Your Country Name',
-              alphanumeric: 'Enter Only Charactors',
-              minlength: 'Enter minimum 4 charractors',
-            },
-            city: {
-              minlength: 'Enter minimum 4 charractors',
-              required: 'Please Enter Your City Name',
-              alphanumeric: 'Enter Only Charactors',
-            },
-            state: {
-              minlength: 'Enter minimum 4 charractors',
-              required: 'Please Enter Your State Name',
-              alphanumeric: 'Enter Only Charactors',
-            },
-            pincode: {
-              minlength: 'Enter minimum 4 charractors',
-              required: 'Please Enter Your Pincode',
-            },
-            address: {
-              required: 'Please Enter Your Address',
-              minlength: 'Enter minimum 4 charractors',
-            },
-            mail: {
-              required: 'Please Enter Your mail id',
-              alphanumeric: 'Please Enter only charractors'
-            },
-            mobile: {
-              required: 'Please Enter  Your Phone Number',
-              maxlength: 'Enter only 10 numbers',
-              minlength: 'Enter minimum 10 numbers'
-            },
-            payment_method: {
-              required: 'Please select any payment method',
-            },
-            pass: {
-              required: 'Please Enter Your Password',
-              maxlength: 'Enter only 10 numbers',
-              minlength: 'Enter minimum 4 numbers'
-            },
-            confirm: {
-              required: ' '
-            },
-            content: {
-              required: 'Please enter your message'
-            },
-            pname: {
-              //error message for the required field
-              required: 'Please Enter The Product Name'
-            },
-            category: {
-              required: 'Please Enter category of product '
-            },
-            price: {
-              required: "Please Enter the price of product",
-              numeric: "Enther only numbers",
-            },
-            discription: {
-              required: 'Please Enter discription '
-            },
-            image: {
-              required: 'Please choose the image file '
-            },
-            cname: {
-              required: 'Please enter the category '
-            }
-
-          },
-          submitHandler: function (form) {
-            submitForm(); //  ADDED this call
-          },
-
-        });
-      }
-      function submitForm() {
-        $("#form").submit((e) => {
-          e.preventDefault()
-          $.ajax({
-            url: '/checkoutSubmit',
-            method: 'post',
-            data: $('#form').serialize(),
-            success: (response) => {
-              if (response.codSuccess) {
-                location.href = '/success'
-              } else if (response.status) {
-                razorpayPayment(response)
-              } else {
-                window.location.href = response.paypalConnection
-              }
-            }
-          })
-        })
-      }
-
-
-      function razorpayPayment(order) {
-        var options = {
-          "key": "rzp_test_B1Edfkjazm7n03", // Enter the Key ID generated from the Dashboard
-          "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-          "currency": "INR",
-          "name": "KIKKI MART",
-          "description": "Test Transaction",
-          "image": "https://example.com/your_logo",
-          "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-          "handler": function (response) {
-            verifyPayment(response, order)
-          },
-          "prefill": {
-            "name": "Gaurav Kumar",
-            "email": "gaurav.kumar@example.com",
-            "contact": "9999999999"
-          },
-          "notes": {
-            "address": "Razorpay Corporate Office"
-          },
-          "theme": {
-            "color": "#3399cc"
-          }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
-      }
-
-      function verifyPayment(payment, order) {
-        $.ajax({
-          url: '/verifyPayment',
-          data: {
-            payment,
-            order
-          },
-          method: 'POST',
-          success: (response) => {
-            if (response.status) {
-              location.href = '/success'
-            } else {
-              alert("Payment Failed")
-            }
-          }
-        })
-      }
+    }
 
   </script>
   <script>
-      function findAdd(user, add) {
-        $.ajax({
-          url: '/users/findAddress',
-          data: {
-            userId: user,
-            address: add
-          },
-          method: 'POST',
-          success: (response) => {
-            if (response.status) {
-              document.getElementById('fname').value = response.address.fname
-              document.getElementById('lname').value = response.address.lname
-              document.getElementById('country').value = response.address.country
-              document.getElementById('housename').value = response.address.housename
-              document.getElementById('city').value = response.address.city
-              document.getElementById('state').value = response.address.state
-              document.getElementById('pincode').value = response.address.pincode
-              document.getElementById('mobile').value = response.address.mobile
-              document.getElementById('mail').value = response.address.mail
-            } else {
-              alert("Please add address")
-            }
+    function findAdd(user, add) {
+      $.ajax({
+        url: '/users/findAddress',
+        data: {
+          userId: user,
+          address: add
+        },
+        method: 'POST',
+        success: (response) => {
+          if (response.status) {
+            document.getElementById('fname').value = response.address.fname
+            document.getElementById('lname').value = response.address.lname
+            document.getElementById('country').value = response.address.country
+            document.getElementById('housename').value = response.address.housename
+            document.getElementById('city').value = response.address.city
+            document.getElementById('state').value = response.address.state
+            document.getElementById('pincode').value = response.address.pincode
+            document.getElementById('mobile').value = response.address.mobile
+            document.getElementById('mail').value = response.address.mail
+          } else {
+            alert("Please add address")
           }
-        })
-      }
+        }
+      })
+    }
   </script>
 </body>

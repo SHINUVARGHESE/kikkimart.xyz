@@ -14,7 +14,7 @@ router.get("/", function (req, res) {
               userHelpers.findCount(users._id, (result2) => {
                 if (results) {
                   res.render("user", { users, results, result1, result2 });
-                }
+                } 
               });
             });
           });
