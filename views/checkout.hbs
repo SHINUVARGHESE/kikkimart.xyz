@@ -165,11 +165,11 @@
           method: 'post',
           data: 'hi',
           success: (response) => {
+            var reffEarning = response.length * 100
+            var ref = reffEarning + 100
             if (response.length == 0) {
               document.getElementById('err').innerHTML = "There is no referal earning"
             } else {
-              var reffEarning = response.length * 100
-              var ref = reffEarning + 100
               if (reffEarning > amount) {
                 document.getElementById('err').innerHTML = "Your referal earning is " + reffEarning + " if you want redeem, purchase above " + ref
               } else {

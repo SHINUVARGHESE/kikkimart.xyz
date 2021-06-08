@@ -31,7 +31,7 @@ passport.use(new facebookStrategy({
   // pull in our app id and secret from our auth.js file
   clientID        : "482428659535981",
   clientSecret    : "869c51b2fd77002f16ad2faeb9b3c1aa",
-  callbackURL     : "http://localhost:3000/facebook/callback",
+  callbackURL     : "http://kikkimart.xyz/facebook/callback",
   profileFields   :['id','displayName','name','gender','picture.type(large)','email']
 
 },// facebook will send back the token and profile
@@ -359,8 +359,8 @@ router.post("/checkoutSubmit", (req, res) => {
                   payment_method: "paypal",
                 },
                 redirect_urls: {
-                  return_url: "http://localhost:3000/successPaypal",
-                  cancel_url: "http://localhost:3000/cancel",
+                  return_url: "http://kikkimart.xyz/successPaypal",
+                  cancel_url: "http://kikkimart.xyz/cancel",
                 },
                 transactions: [
                   {
@@ -460,7 +460,7 @@ router.post("/placeOrder", async (req, res) => {
             total = await userHelpers.getTotalAmount(req.session.user._id);
           }
 
-          if (products) {
+          if (products.length > 0) {
             res.render("placeOrder", {
               products,
               user: req.session.user._id,
@@ -599,7 +599,7 @@ router.get("/viewOrderProduct/", (req, res) => {
           res.redirect("/");
         }
       } else {
-        req.session.userloggedIn = false;
+        req.session.userloggedIn = false; 
         res.redirect("/");
       }
     } else {
@@ -655,7 +655,12 @@ router.get("/viewOffers", (req, res) => {
 router.post("/productSearch", (req, res) => {
   console.log(req.body.searchValue);
   userHelpers.searchProducts(req.body).then((results) => {
+    if(results.length>0){
     res.render("single", { results });
+    }else{
+    var err = "No such Products"
+      res.render("single", { err });
+    }
   });
 });
 
@@ -680,7 +685,7 @@ router.post("/forgotPasswordSubmit", (req, res) => {
         from: 'shinuvarghese997@gmail.com',
         to: req.body.mail,
         subject: 'Kikki Mart Change your password',
-        text: 'http://localhost:3000/changePassword?mail='+req.body.mail+''
+        text: 'http://kikkimart.xyz/changePassword?mail='+req.body.mail+''
       };
       
       transporter.sendMail(mailOptions, function(error, info){

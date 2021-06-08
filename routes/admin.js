@@ -59,7 +59,7 @@ router.get("/adminPage", function (req, res) {
 router.post("/adminPage", function (req, res) {
   if (req.session.adminloggedIn) {
     res.redirect("/admin/viewAdmin");
-  } else {
+  } else { 
     adminHelpers.doLogin(req.body, (result) => {
       if (result) {
         req.session.adminloggedIn = true;
@@ -218,18 +218,19 @@ router.get("/editProducts", function (req, res) {
 
 router.post("/editProducts/", function (req, res) {
   userHelpers.editProducts(req.body, req.query, (result) => {
-    if (result) {
-      if (req.body.image1) {
-        console.log(req.body.image1);
+    if (result) { 
+     if (req.body.image1) {
         const path = "./public/product_images/" + req.query.id + ".jpg";
         const imgdata = req.body.image1;
         const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, "");
         fs.writeFileSync(path, base64Data, { encoding: "base64" });
         res.redirect("/admin/manageProducts");
-      } else{ 
-        let image = req.files.img;
+      } else if(req.files){ 
+        let image = req.files.img; 
         image.mv("./public/product_images/" + req.query.id + ".jpg");
-        res.redirect("/admin/manageProducts");
+        res.redirect("/admin/manageProducts"); 
+      }else{
+        res.redirect("/admin/manageProducts"); 
       }
     }
   });
@@ -265,7 +266,7 @@ router.get("/adminCancelOrder/", (req, res) => {
 
 router.get("/viewOrderProduct/", async (req, res) => {
   let products = await userHelpers.viewOrderProduct(req.query.id);
-  res.render("viewOrderProduct", { products });
+  res.render("viewOrderProduct", { products});
 });
 
 router.get("/salesReport", (req, res) => {
@@ -372,7 +373,6 @@ router.get("/manageOffers", (req, res) => {
 
 router.get("/addCategoryOffers", (req, res) => {
   userHelpers.findCategory(req.body, (categories) => {
-    console.log(categories);
     res.render("addCategoryOffers", { categories });
   });
 });
@@ -498,12 +498,10 @@ router.post("/addCouponSubmit", (req, res) => {
 });
 
 router.get("/editCoupons/", (req, res) => {
-  userHelpers.findSingleCoupons(req.query, (coupon) => {
-    if (coupon) {
-      res.render("editCoupons", { coupon });
-    } else {
-      res.redirect("/admin/manageCoupons");
-    }
+  userHelpers.findSingleCoupons(req.query,(coupon) => {
+ 
+      res.render("editCoupons", {coupon}); 
+
   });
 });
 
@@ -560,4 +558,10 @@ router.post("/changeStatus/", (req, res) => {
   })
 });
 
+router.get("/adminViewProducts/", async (req, res) => {
+ 
+  let products = await userHelpers.viewOrderProduct(req.query.id);
+  res.render("adminViewProducts", { products });
+ 
+});
 module.exports = router;

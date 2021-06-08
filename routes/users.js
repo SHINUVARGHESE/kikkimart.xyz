@@ -39,7 +39,9 @@ router.get("/single/", function (req, res) {
       if (result.status == "Block") {
         if (req.session.userloggedIn) {
           userHelpers.findSingleProducts(req.query, (results) => {
-            res.render("single", { results });
+            userHelpers.findCount(req.session.userId, (result2) => {
+            res.render("single", { results,result2 });
+            })
           });
         } else {
           res.redirect("/");
@@ -292,9 +294,9 @@ router.post("/checkReferalEarning", function (req, res) {
 });
 
 router.post("/checkCuponCode", function (req, res) {
-  userHelpers.findSingleCoupons(req.body).then((response) => {
-    if(response){
-      res.json(response)
+  userHelpers.findUserCoupons(req.body,(response) => {
+    if(response[0]){
+      res.json(response[0])
     }else{
       res.json(false)
     }

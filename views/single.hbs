@@ -58,9 +58,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="w3ls_logo_products_left">
 				<h1><a href="/users">KIKKI MART</a></h1>
 			</div>
-			<div class="w3l_search">
-				<form action="#" method="post">
-					<input type="search" name="Search" placeholder="Search for a Product..." required="">
+            <div class="w3l_search">
+				<form action="/productSearch" method="POST">
+					<input type="search" name="searchValue" placeholder="Search for a Product..." required="">
 					<button type="submit" class="btn btn-default search" aria-label="Left Align">
 						<i class="fa fa-search" aria-hidden="true"> </i>
 					</button>
@@ -83,16 +83,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<li><a href="/users"><span class="glyphicon glyphicon-home"
 										aria-hidden="true"></span>Home</a></li>
 							<li class="active">Product Details</li>
+							<form style="float: right;" action="/placeOrder" method="post" class="last">
+						 		<button class="w3view-cart" type="submit" name="submit" value=""><i
+								class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+								<span style="background-color: rgb(29 35 3); color: #fff; font-size: 10px;" class="badge badge-" id="cartCount">{{result2}}</span>
+						</form>
 						</ol>
-						
 					</div>
-					
 				</div>
 				<!-- //breadcrumbs -->
 			</nav>
 		</div>
 	</div>
-
+<label style="color: #fe9126; margin-left: 41%; padding-top: 3%; font-size: 30px;">{{err}}</label>
 	<!-- //navigation -->
 	<!-- //navigation -->
 	{{#each results}}
@@ -130,7 +133,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="snipcart-details top_brand_home_details">
 							<button style="float: left; width:20%; padding: 2px;" onclick="addToCart('{{this._id}}')" name="submit">Add to cart</button>
 
-						</div>
+						</div> 
 					</div>
 				</div>
 				<div class="clearfix"> </div>
@@ -249,7 +252,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         success:(response)=>{
 			if(response.status){
 				alert("Product Added to cart")
-				location.href='/users'
+				location.reload()
 				let count=$('#cartCount').html()
 				count=parseInt(count)+1
 				$('#cartCount').html(count)

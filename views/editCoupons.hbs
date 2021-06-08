@@ -38,20 +38,20 @@
         <div class="container">
             <h2>Edit Coupons</h2>
             <div class="login-form-grids">
-                {{#each coupon}}
-                <form id="form" action="/admin/editCouponSubmit" enctype="multipart/form-data" method="POST">
+                <form id="form" action="/admin/editCouponSubmit" enctype="multipart/form-data" method="POST">                    
+                {{#each coupon}}   
                     <label>Coupon name</label><br>
                     <input type="text" id="couponName" value="{{this.coname}}" name="coname"><br>
                     <input type="hidden"  value="{{this._id}}" name="coId">
-                    <label>Coupon Code</label><br>
+                    <label>Coupon Code</label><br> 
                     <input  type="text" id="code" value="{{this.code}}" name="code"><br>
                     <label>Redeem Amount</label><br>
                     <input type="text" value="{{this.redeemAmount}}" name="redeemAmount"><br>
                     <label>Ending time</label><br>
                     <input type="date" style="width: 100%;" value="{{this.endingTime}}" name="endingTime">
                     <input type="submit" value="Update">
-                </form>
                 {{/each}}
+                </form>
             </div>
         </div>
     </div>

@@ -1095,14 +1095,26 @@ module.exports = {
     });
   },
 
-  findSingleCoupons: (body, callback) => {
+  findSingleCoupons: (query,callback) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.coupons_collections)
-        .find({ code: body.couponCode })
+        .find({ _id:objectId(query.id) })
         .toArray()
-        .then((response) => {
-          resolve(response[0]);
+        .then((data) => {
+          callback(data)
+        });
+    });
+  },
+
+  findUserCoupons: (body,callback) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.coupons_collections)
+        .find({ code:body.couponCode })
+        .toArray()
+        .then((data) => {
+         callback(data)
         });
     });
   },
@@ -1203,11 +1215,9 @@ module.exports = {
           },
         ])
         .toArray();
-        console.log(result);
         for (let i = 0; i < result.length; i++) {
           chart[result[i]._id - 1] = result[i].total;
         }
-      console.log(chart);
       resolve(chart);
     });
   },
